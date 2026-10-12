@@ -66,13 +66,9 @@ a{color:inherit}
 .scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;overscroll-behavior:contain;z-index:0}
 .pg{padding:44px 64px 88px 70px;max-width:1040px}
 .pg[hidden]{display:none}
-.pg.turn-in{animation:pageIn .5s var(--ease) both}
-@keyframes pageIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-.leaf{position:absolute;inset:0;z-index:4;background:var(--paper);overflow:hidden;transform-origin:left center;
-  animation:leafTurn .62s cubic-bezier(.45,.05,.25,1) forwards;box-shadow:0 0 30px rgba(0,0,0,.25);pointer-events:none}
-.leaf::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0),rgba(40,25,15,.28));animation:leafShade .62s ease forwards}
-@keyframes leafTurn{0%{transform:rotateY(0)}100%{transform:rotateY(-96deg)}}
-@keyframes leafShade{from{opacity:0}to{opacity:1}}
+/* page turn: a frozen copy of one page, clipped at a moving fold, plus the lifted flap drawn in SVG */
+.leaf{position:absolute;inset:0;z-index:0;background:var(--paper);overflow:hidden;pointer-events:none;will-change:clip-path}
+.curl{position:absolute;inset:0;z-index:3;width:100%;height:100%;pointer-events:none;overflow:visible}
 
 /* tabs */
 .tabs{position:absolute;right:14px;top:62px;bottom:62px;z-index:1;display:flex;flex-direction:column;gap:10px}
@@ -890,22 +886,62 @@ const pages={};document.querySelectorAll('.pg').forEach(p=>pages[p.dataset.page]
 const tabs=[...document.querySelectorAll('.tab,.ribbon')];
 const ORDER=['cover','about','work','method','contact'];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let cur=null;
+let cur=null,endTurn=null;
 Object.values(pages).forEach(p=>p.hidden=true);
+const rank=p=>{const t=p.dataset.tab||p.dataset.page;return ORDER.indexOf(t)*2+(p.dataset.tab&&p.dataset.tab!==p.dataset.page?1:0)};
+/* Turn the page around the rings. Forward: the old page lifts from the bottom-right corner and
+   folds over to the left, uncovering the new one. Backward: the earlier page lays back down. */
+function turnPage(old,forward){
+  if(endTurn)endTurn();
+  const W=sheet.clientWidth,H=sheet.clientHeight,NS='http://www.w3.org/2000/svg';
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const clone=old.cloneNode(true);clone.removeAttribute('id');clone.hidden=false;clone.style.transform=`translateY(${-scroller.scrollTop}px)`;
+  clone.querySelectorAll('.play').forEach(e=>e.classList.remove('play'));
+  clone.querySelectorAll('video').forEach(v=>{v.removeAttribute('autoplay');v.preload='none'});
+  leaf.appendChild(clone);
+  const svg=document.createElementNS(NS,'svg');svg.setAttribute('class','curl');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.innerHTML=`<defs>
+    <linearGradient id="cShade" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2a1a10" stop-opacity=".30"/><stop offset=".22" stop-color="#2a1a10" stop-opacity=".06"/><stop offset=".7" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#2a1a10" stop-opacity=".12"/></linearGradient>
+    <linearGradient id="cCast" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1a0f08" stop-opacity=".34"/><stop offset="1" stop-color="#1a0f08" stop-opacity="0"/></linearGradient>
+    <filter id="cDrop" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="-6" dy="4" stdDeviation="10" flood-color="#1a0f08" flood-opacity=".28"/></filter></defs>
+    <polygon class="cast" fill="url(#cCast)"/><g filter="url(#cDrop)"><polygon class="flap" style="fill:var(--paper)"/></g><polygon class="flap2" fill="url(#cShade)"/>`;
+  const [cast,flap,flap2]=['.cast','.flap','.flap2'].map(s=>svg.querySelector(s));
+  const gS=svg.querySelector('#cShade'),gC=svg.querySelector('#cCast');
+  sheet.append(leaf,svg);
+  const rect=[[0,0],[W,0],[W,H],[0,H]];
+  const pts=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const cssPoly=a=>a.length?'polygon('+a.map(p=>p[0].toFixed(1)+'px '+p[1].toFixed(1)+'px').join(',')+')':'polygon(0 0,0 0,0 0)';
+  function frame(p){ /* p: 0 = flat, 1 = fully turned */
+    const lift=Math.sin(Math.PI*p), m=W*(1-p), d=-.38*Math.min(W,H)*lift; /* d tilts the fold: bottom corner leads */
+    const A=[m-d/2,0],B=[m+d/2,H],dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy);
+    const nx=dy/L,ny=-dx/L; /* unit normal pointing right of the fold */
+    const side=q=>(q[0]-A[0])*nx+(q[1]-A[1])*ny;
+    const cut=(poly,keepRight)=>{const out=[];for(let i=0;i<poly.length;i++){const P=poly[i],Q=poly[(i+1)%poly.length],sp=side(P),sq=side(Q),ip=keepRight?sp>=0:sp<0,iq=keepRight?sq>=0:sq<0;
+      if(ip)out.push(P);if(ip!==iq){const t=sp/(sp-sq);out.push([P[0]+(Q[0]-P[0])*t,P[1]+(Q[1]-P[1])*t])}}return out};
+    const left=cut(rect,false),right=cut(rect,true);
+    leaf.style.clipPath=cssPoly(forward?left:right);
+    const fl=right.map(q=>{const s=side(q);return [q[0]-2*s*nx,q[1]-2*s*ny]});
+    flap.setAttribute('points',pts(fl));flap2.setAttribute('points',pts(fl));
+    const depth=Math.max(1,...right.map(side)),mid=[(A[0]+B[0])/2,(A[1]+B[1])/2];
+    gS.setAttribute('x1',mid[0]);gS.setAttribute('y1',mid[1]);gS.setAttribute('x2',mid[0]-nx*depth);gS.setAttribute('y2',mid[1]-ny*depth);
+    const reach=60+90*lift;
+    cast.setAttribute('points',pts(right));cast.setAttribute('opacity',Math.min(1,lift*1.6).toFixed(2));
+    gC.setAttribute('x1',mid[0]);gC.setAttribute('y1',mid[1]);gC.setAttribute('x2',mid[0]+nx*reach);gC.setAttribute('y2',mid[1]+ny*reach);
+  }
+  const dur=950,t0=performance.now();let raf=0;
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const soft=t=>.35*t+.65*ease(t); /* mostly ease-in-out, a little linear so it never stalls */
+  endTurn=()=>{cancelAnimationFrame(raf);leaf.remove();svg.remove();endTurn=null};
+  const tick=now=>{const t=Math.min(1,(now-t0)/dur),e=soft(t);frame(forward?e:1-e);if(t<1)raf=requestAnimationFrame(tick);else endTurn()};
+  frame(forward?0:1);raf=requestAnimationFrame(tick);
+}
 function show(id,animate){
   if(!pages[id])id='cover';
   const next=pages[id];if(next===cur)return;
-  if(cur&&animate&&!reduce){
-    const leaf=document.createElement('div');leaf.className='leaf';
-    const clone=cur.cloneNode(true);clone.removeAttribute('id');clone.style.transform=`translateY(${-scroller.scrollTop}px)`;
-    clone.querySelectorAll('.play').forEach(e=>e.classList.remove('play'));
-    leaf.appendChild(clone);sheet.appendChild(leaf);
-    leaf.addEventListener('animationend',e=>{if(e.target===leaf)leaf.remove()});
-    setTimeout(()=>leaf.remove(),900);
-  }
+  if(cur&&animate&&!reduce)turnPage(cur,rank(next)>=rank(cur)); /* clone before hiding, so it keeps the scroll offset */
   if(cur)cur.hidden=true;
-  next.hidden=false;scroller.style.scrollBehavior='auto';scroller.scrollTop=0;scroller.style.scrollBehavior='';
-  if(animate&&!reduce){next.classList.remove('turn-in');void next.offsetWidth;next.classList.add('turn-in')}
+  next.hidden=false;
+  scroller.style.scrollBehavior='auto';scroller.scrollTop=0;scroller.style.scrollBehavior='';
   cur=next;
   document.querySelectorAll('video').forEach(v=>v.pause());
   next.querySelectorAll('.media video,.hero video').forEach(v=>{v.muted=true;if(v.closest('.hero'))v.loop=true;const p=v.play();if(p)p.catch(()=>{})});
