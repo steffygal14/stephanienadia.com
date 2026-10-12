@@ -1,0 +1,849 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Family Fishbowl</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,900&family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap');
+
+  :root{
+    --cream:#F1E4C8;
+    --cream-soft:#F8EFDA;
+    --ink:#241C15;
+    --ink-60:#241C15b3;
+    --magenta:#E0308A;
+    --magenta-deep:#B01E68;
+    --forest:#1F5C42;
+    --forest-deep:#123D2B;
+    --brick:#D6472A;
+    --brick-deep:#A6331C;
+    --gold:#C79A3D;
+    --gold-soft:#E3C377;
+    --table:#7A5230;
+    --table-deep:#4E3320;
+    --card-shadow: 0 30px 60px -20px rgba(20,12,4,0.55), 0 2px 0 rgba(255,255,255,0.35) inset;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(120% 90% at 50% -10%, var(--table) 0%, var(--table-deep) 70%);
+    color:var(--ink);
+    font-family:'Archivo', ui-sans-serif, system-ui, sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:20px;
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:100%;
+    max-width:460px;
+  }
+
+  .card{
+    position:relative;
+    background:
+      radial-gradient(140% 100% at 15% 0%, var(--cream-soft) 0%, var(--cream) 60%);
+    border-radius:28px;
+    border:3px solid var(--gold);
+    box-shadow:var(--card-shadow);
+    min-height:640px;
+    padding:30px 26px 26px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  .card::before, .card::after{
+    content:'♦';
+    position:absolute;
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:22px;
+    color:var(--gold);
+    opacity:0.55;
+  }
+  .card::before{ top:14px; left:18px; }
+  .card::after{ bottom:14px; right:18px; transform:rotate(180deg); }
+
+  .corner-tl, .corner-br{
+    position:absolute;
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-style:italic;
+    font-size:13px;
+    color:var(--gold);
+    letter-spacing:0.02em;
+  }
+  .corner-tl{ top:16px; left:38px; }
+  .corner-br{ bottom:16px; right:38px; transform:rotate(180deg); }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; margin:0; text-wrap:balance; }
+
+  .eyebrow{
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:11.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--magenta-deep);
+    text-align:center;
+  }
+
+  .screen{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    animation: deal 0.38s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes deal{
+    from{ opacity:0; transform:translateY(10px) scale(0.98); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .screen{ animation:none; }
+  }
+
+  .title-block{ text-align:center; margin-top:6px; }
+  .title-block h1{
+    font-size:42px;
+    font-weight:900;
+    font-style:italic;
+    color:var(--magenta);
+    line-height:0.95;
+    text-shadow: 2px 2px 0 var(--forest-deep);
+  }
+  .title-block p{
+    margin:8px 0 0;
+    font-size:13.5px;
+    color:var(--ink-60);
+    line-height:1.5;
+  }
+
+  .rules-list{
+    background:rgba(255,255,255,0.4);
+    border:1.5px solid var(--gold-soft);
+    border-radius:16px;
+    padding:14px 16px;
+    font-size:13px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .rules-list b{ color:var(--forest-deep); }
+
+  label.field-label{
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-60);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  input[type=text], textarea, select{
+    width:100%;
+    font-family:'Archivo', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    background:#fff;
+    border:2px solid var(--gold-soft);
+    border-radius:12px;
+    padding:10px 12px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input[type=text]:focus, textarea:focus, select:focus{ border-color:var(--magenta); }
+
+  .team-row{ display:flex; gap:10px; }
+  .team-row .field{ flex:1; }
+  .team-row .field:nth-child(1) input{ border-color:var(--magenta); }
+  .team-row .field:nth-child(2) input{ border-color:var(--forest); }
+
+  textarea{ min-height:120px; resize:vertical; font-size:13.5px; line-height:1.5; font-weight:500; }
+
+  .row{ display:flex; gap:10px; align-items:center; }
+  .row.between{ justify-content:space-between; }
+
+  .chip-btn{
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:9px 14px;
+    border-radius:999px;
+    border:2px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .1s, background .15s, color .15s;
+  }
+  .chip-btn.active{ background:var(--ink); color:var(--cream); }
+  .chip-btn:active{ transform:scale(0.96); }
+
+  .btn{
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:15.5px;
+    letter-spacing:0.01em;
+    padding:15px 18px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    color:var(--cream-soft);
+    background:var(--forest);
+    box-shadow:0 4px 0 var(--forest-deep);
+    transition:transform .08s, box-shadow .08s;
+  }
+  .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 var(--forest-deep); }
+  .btn.magenta{ background:var(--magenta); box-shadow:0 4px 0 var(--magenta-deep); }
+  .btn.brick{ background:var(--brick); box-shadow:0 4px 0 var(--brick-deep); }
+  .btn.ghost{
+    background:transparent; color:var(--ink); box-shadow:none;
+    border:2px solid var(--ink); font-weight:700;
+  }
+  .btn.ghost:active{ transform:scale(0.97); }
+  .btn.block{ width:100%; }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed; box-shadow:none; transform:none; }
+
+  .spacer{ flex:1; }
+
+  /* Coin flip */
+  .coin-wrap{ display:flex; align-items:center; justify-content:center; padding:20px 0; }
+  .coin{
+    width:120px; height:120px; border-radius:50%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .coin.flipping{ transform:rotateY(1800deg); }
+  .coin.show-tails{ transform:rotateY(1980deg); }
+  .coin-face{
+    position:absolute; inset:0; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-weight:900; font-style:italic; font-size:15px;
+    backface-visibility:hidden;
+    border:4px solid var(--gold-soft);
+    box-shadow:0 6px 18px rgba(0,0,0,0.35) inset, 0 8px 16px rgba(0,0,0,0.3);
+  }
+  .coin-face.heads{ background:radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 70%); color:var(--forest-deep); }
+  .coin-face.tails{ background:radial-gradient(circle at 35% 30%, #e9d6a0, var(--gold) 75%); color:var(--brick-deep); transform:rotateY(180deg); }
+
+  /* Turn screens */
+  .team-banner{
+    text-align:center;
+    border-radius:18px;
+    padding:16px 12px;
+    color:#fff;
+  }
+  .team-banner h2{ font-size:26px; font-style:italic; font-weight:900; }
+  .team-banner .sub{ font-size:12px; opacity:0.85; margin-top:2px; letter-spacing:0.04em; text-transform:uppercase; font-weight:700; }
+
+  .round-pill{
+    align-self:center;
+    font-size:11.5px;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:999px;
+    border:2px solid currentColor;
+  }
+
+  .timer-display{
+    text-align:center;
+    font-family:'Archivo', sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight:800;
+    font-size:64px;
+    line-height:1;
+    letter-spacing:-0.02em;
+  }
+  .timer-display.warn{ color:var(--brick); animation:pulse 0.6s infinite; }
+  @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
+  @media (prefers-reduced-motion: reduce){ .timer-display.warn{ animation:none; } }
+
+  .word-card{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#fff;
+    border:2px dashed var(--gold);
+    border-radius:20px;
+    padding:26px 18px;
+    min-height:150px;
+  }
+  .word-card h2{
+    font-size:34px;
+    font-weight:900;
+    font-style:italic;
+    color:var(--forest-deep);
+    line-height:1.1;
+  }
+
+  .score-strip{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink-60);
+  }
+
+  .big-num{ font-family:'Fraunces', serif; font-weight:900; font-style:italic; font-size:76px; text-align:center; line-height:1; color:var(--magenta); }
+
+  table.score-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.score-table th, table.score-table td{ padding:8px 6px; text-align:center; border-bottom:1.5px solid var(--gold-soft); }
+  table.score-table th{ font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-60); }
+  table.score-table td.name{ text-align:left; font-family:'Fraunces', serif; font-weight:700; font-style:italic; font-size:16px; }
+  table.score-table tr.total td{ font-weight:800; border-top:2px solid var(--ink); border-bottom:none; }
+  table.score-table td.num{ font-variant-numeric: tabular-nums; font-weight:700; }
+
+  .flash-overlay{
+    position:absolute; inset:0; border-radius:26px;
+    background:var(--brick);
+    display:flex; align-items:center; justify-content:center;
+    animation: flashOut 1.1s forwards;
+    z-index:5;
+  }
+  @keyframes flashOut{ 0%{opacity:1;} 70%{opacity:1;} 100%{opacity:0; visibility:hidden;} }
+  .flash-overlay h2{ color:#fff; font-size:38px; font-style:italic; font-weight:900; }
+
+  .footnote{ text-align:center; font-size:11.5px; color:var(--ink-60); }
+
+  ::selection{ background:var(--magenta); color:#fff; }
+</style>
+
+<div class="stage">
+  <div class="card" id="card">
+    
+    
+    <div class="screen" id="screen"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var WORDS_PER_GAME = 60;
+
+  var MASTER_WORDS = [
+    // NYC & city life
+    "Statue of Liberty","Central Park","Yellow Taxi","Bodega Cat","Subway Rat",
+    "Times Square","Brooklyn Bridge","Bagel with Lox","“I'm walkin' here!”","Broadway Show",
+    "Empire State Building","Coney Island","The Met","The High Line","Bike Messenger",
+    "Fire Escape","Food Truck","Doorman","Rooftop Party",
+    // Movies
+    "Barbie","Spider-Man","The Wizard of Oz","Home Alone","Frozen",
+    "Star Wars","Harry Potter","Jurassic Park","The Lion King","Shrek",
+    "Moana","Encanto","Toy Story","Elf","The Grinch",
+    "Mary Poppins","Titanic","Jaws","Grease","The Sound of Music",
+    "E.T.","Back to the Future","Ghostbusters","The Matrix","Finding Nemo",
+    "Inside Out","Up","Ratatouille","The Incredibles","Wicked",
+    // TV
+    "Friends","Stranger Things","SpongeBob SquarePants","Saturday Night Live","The Office",
+    "Sesame Street","Bluey","Wheel of Fortune","Jeopardy!","Seinfeld",
+    "The Simpsons","Game of Thrones","Ted Lasso","Paw Patrol","American Idol",
+    "Survivor","The Bachelor","Sex and the City","Curb Your Enthusiasm","Law & Order",
+    // Celebrities & musicians
+    "Taylor Swift","Beyoncé","Michael Jackson","Elvis Presley","The Beatles",
+    "Adele","Bruno Mars","Rihanna","Lady Gaga","Elton John",
+    "Dolly Parton","Bruce Springsteen","Billie Eilish","Ed Sheeran","Stevie Wonder",
+    // Famous pairs
+    "Batman and Robin","Peanut Butter and Jelly","Salt and Pepper","Romeo and Juliet","Mickey and Minnie",
+    "Bonnie and Clyde","Simon and Garfunkel","Bert and Ernie","Tom and Jerry","Woody and Buzz",
+    "Ben and Jerry","Sonny and Cher","Lilo and Stitch","Shrek and Donkey","Thelma and Louise",
+    // Fairytales & books
+    "Cinderella","Snow White","Goldilocks and the Three Bears","Little Red Riding Hood","The Three Little Pigs",
+    "Peter Pan","Alice in Wonderland","Winnie the Pooh","Charlotte's Web","The Very Hungry Caterpillar",
+    "Matilda","The Cat in the Hat","Where the Wild Things Are","Jack and the Beanstalk","Rapunzel",
+    // Idioms & phrases
+    "“Break a leg”","“Piece of cake”","“It's raining cats and dogs”","“Once in a blue moon”","“Costs an arm and a leg”",
+    "“Elephant in the room”","“Let the cat out of the bag”","“Bite the bullet”","“Spill the beans”","“Hit the sack”",
+    "“Cool as a cucumber”","“Kill two birds with one stone”","“The ball is in your court”","“Beat around the bush”","“Under the weather”",
+    "“On thin ice”","“Barking up the wrong tree”","“Don't cry over spilled milk”","“When pigs fly”","“Cat got your tongue”",
+    // Family & kid life
+    "Tooth Fairy","Ice Cream Truck","Scavenger Hunt","Sandcastle","Piggy Bank",
+    "Family Game Night","Road Trip","Dance Party","Pillow Fort","Water Balloon Fight",
+    "Snow Day","Lemonade Stand","Bedtime Story","Homework","Carpool",
+    "Birthday Party","Trampoline","Treehouse","Sleepover","Show and Tell",
+    "Nap Time","Juice Box","Backpack","School Bus","Recess",
+    // Holidays & occasions
+    "Thanksgiving","Halloween","Fourth of July","New Year's Eve","Valentine's Day",
+    "Easter Egg Hunt","Christmas Morning","Birthday Cake","Graduation","Wedding",
+    // Sports & games
+    "Basketball","Baseball","Soccer","Hide and Seek","Tag",
+    "Musical Chairs","Board Game","Freeze Dance","Jump Rope","Tic-Tac-Toe",
+    // Animals & nature
+    "Golden Retriever","Penguin","Octopus","Butterfly","Fireflies",
+    "Squirrel","Rainbow","Thunderstorm","Campfire","Beach Day",
+    // Everyday life
+    "Firefighter","Astronaut","Chef","Superhero","Umbrella",
+    "Traffic Light","Selfie","Roller Coaster","Karaoke","Photo Booth"
+  ];
+
+  function drawWords(n){
+    return shuffle(MASTER_WORDS).slice(0, Math.min(n, MASTER_WORDS.length));
+  }
+
+  var ROUNDS = [
+    { name:"Taboo Talk", instruction:"Describe the word or phrase any way you like — just never say any part of it.", color:"magenta" },
+    { name:"Charades", instruction:"Act it out. No talking, no sounds, no mouthing words.", color:"forest" },
+    { name:"One Word", instruction:"You get exactly ONE word to clue your whole team.", color:"brick" }
+  ];
+
+  var STORAGE_KEY = "fishbowl_state_v1";
+
+  function freshState(){
+    return {
+      screen: "setup",
+      teamNames: ["Team 1","Team 2"],
+      timerSeconds: 60,
+      words: drawWords(WORDS_PER_GAME),
+      round: 1,
+      bowl: [],
+      currentTeam: 0,
+      currentWord: null,
+      scores: [[0,0,0],[0,0,0]],
+      turnNet: 0,
+      coinCaller: 0,
+      coinCall: null,
+      coinResult: null,
+      coinFlipping: false,
+      timeLeft: 60,
+      timesUp: false
+    };
+  }
+
+  var state = load() || freshState();
+  var tickHandle = null;
+  var audioCtx = null;
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      var s = JSON.parse(raw);
+      if(s.screen === "turnActive") s.screen = "turnIntro";
+      return s;
+    }catch(e){ return null; }
+  }
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+
+  function unlockAudio(){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === "suspended") audioCtx.resume();
+    }catch(e){}
+  }
+
+  function playAlarm(){
+    try{
+      unlockAudio();
+      if(!audioCtx) return;
+      var now = audioCtx.currentTime;
+      var pattern = [0,0.22,0.44,0.7,0.92,1.14];
+      pattern.forEach(function(offset, i){
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = "square";
+        osc.frequency.value = (i % 2 === 0) ? 1046 : 880;
+        gain.gain.setValueAtTime(0.0001, now+offset);
+        gain.gain.exponentialRampToValueAtTime(0.9, now+offset+0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now+offset+0.19);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(now+offset);
+        osc.stop(now+offset+0.2);
+      });
+    }catch(e){}
+    try{ if(navigator.vibrate) navigator.vibrate([250,100,250,100,250]); }catch(e){}
+  }
+
+  function playTick(){
+    try{
+      unlockAudio();
+      if(!audioCtx) return;
+      var now = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 660;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.25, now+0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now+0.09);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now); osc.stop(now+0.1);
+    }catch(e){}
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function startRoundBowl(){
+    state.bowl = shuffle(state.words);
+  }
+
+  function beginTurn(){
+    state.timeLeft = state.timerSeconds;
+    state.timesUp = false;
+    if(state.bowl.length === 0) startRoundBowl();
+    state.currentWord = state.bowl.shift();
+    state.turnNet = 0;
+    state.screen = "turnActive";
+    save(); render();
+    clearInterval(tickHandle);
+    tickHandle = setInterval(tick, 1000);
+  }
+
+  function tick(){
+    state.timeLeft--;
+    if(state.timeLeft <= 0){
+      clearInterval(tickHandle);
+      state.timeLeft = 0;
+      state.timesUp = true;
+      if(state.currentWord !== null){
+        state.bowl.push(state.currentWord);
+        state.currentWord = null;
+      }
+      playAlarm();
+      save();
+      endTurn();
+      return;
+    }
+    if(state.timeLeft <= 5) playTick();
+    updateTimerOnly();
+  }
+
+  function updateTimerOnly(){
+    var el = document.getElementById("timerNum");
+    if(el){
+      el.textContent = state.timeLeft;
+      el.className = "timer-display" + (state.timeLeft <= 10 ? " warn" : "");
+    }
+    var wc = document.getElementById("wordText");
+    if(wc && state.currentWord) wc.textContent = state.currentWord;
+  }
+
+  function markCorrect(){
+    state.scores[state.currentTeam][state.round-1]++;
+    state.turnNet++;
+    if(state.bowl.length === 0){
+      state.currentWord = null;
+      clearInterval(tickHandle);
+      endTurn();
+      return;
+    }
+    state.currentWord = state.bowl.shift();
+    save(); render();
+  }
+
+  function markPass(){
+    state.scores[state.currentTeam][state.round-1]--;
+    state.turnNet--;
+    if(state.currentWord !== null){
+      state.bowl.push(state.currentWord);
+    }
+    state.currentWord = state.bowl.shift();
+    save(); render();
+  }
+
+  function endTurn(){
+    state.currentTeam = 1 - state.currentTeam;
+    if(state.bowl.length === 0){
+      state.screen = (state.round >= 3) ? "final" : "roundEnd";
+    } else {
+      state.screen = "turnEnd";
+    }
+    save(); render();
+  }
+
+  function startNextRound(){
+    state.round++;
+    startRoundBowl();
+    state.screen = "turnIntro";
+    save(); render();
+  }
+
+  function totals(team){
+    return state.scores[team][0] + state.scores[team][1] + state.scores[team][2];
+  }
+
+  function render(){
+    var s = document.getElementById("screen");
+    s.innerHTML = SCREENS[state.screen]();
+    wireEvents();
+    if(state.screen === "turnActive"){
+      updateTimerOnly();
+    }
+  }
+
+  var SCREENS = {};
+
+  SCREENS.setup = function(){
+    return ''
+      + '<div class="title-block">'
+      + '  <div class="eyebrow" style="margin-bottom:-2px;">Family game night</div>'
+      + '  <h1>Fishbowl</h1>'
+      + '  <p>Describe it. Act it. One word. Three rounds, same words — whoever guesses most wins the bowl.</p>'
+      + '</div>'
+      + '<div class="rules-list">'
+      + '  <div><b>Round 1 — Taboo Talk:</b> describe without saying it.</div>'
+      + '  <div><b>Round 2 — Charades:</b> act it out, no talking.</div>'
+      + '  <div><b>Round 3 — One Word:</b> a single word clue only.</div>'
+      + '</div>'
+      + '<div class="team-row">'
+      + '  <div class="field"><label class="field-label">Team A</label><input type="text" id="teamA" value="'+esc(state.teamNames[0])+'" maxlength="18"></div>'
+      + '  <div class="field"><label class="field-label">Team B</label><input type="text" id="teamB" value="'+esc(state.teamNames[1])+'" maxlength="18"></div>'
+      + '</div>'
+      + '<div>'
+      + '  <label class="field-label">Turn length</label>'
+      + '  <div class="row" id="timerChips">'
+      + [30,45,60,90].map(function(t){
+          return '<button type="button" class="chip-btn'+(state.timerSeconds===t?' active':'')+'" data-secs="'+t+'">'+t+'s</button>';
+        }).join('')
+      + '  </div>'
+      + '</div>'
+      + '<div>'
+      + '  <div class="row between">'
+      + '    <label class="field-label" style="margin-bottom:0;">Words &amp; phrases in the bowl</label>'
+      + '    <span class="footnote" id="wordCount">'+state.words.length+' items</span>'
+      + '  </div>'
+      + '  <textarea id="wordsBox" spellcheck="false">'+esc(state.words.join("\n"))+'</textarea>'
+      + '  <div class="footnote" style="text-align:right;margin-top:4px;"><span id="reshuffleWords" style="text-decoration:underline;cursor:pointer;">🔀 draw a different 60</span></div>'
+      + '</div>'
+      + '<div class="spacer"></div>'
+      + '<button class="btn magenta block" id="toCoinflip">Flip for first turn →</button>';
+  };
+
+  SCREENS.coinflip = function(){
+    var callerName = state.teamNames[state.coinCaller];
+    var resultKnown = state.coinResult !== null;
+    var winner = null;
+    if(resultKnown){
+      var callerWon = state.coinCall === state.coinResult;
+      winner = callerWon ? state.coinCaller : (1-state.coinCaller);
+    }
+    return ''
+      + '<div class="eyebrow">Coin Toss</div>'
+      + '<h2 style="text-align:center;font-size:24px;font-style:italic;">Who goes first?</h2>'
+      + (!resultKnown ? (
+          '<div class="footnote" style="text-align:center;">'+esc(callerName)+', pick a side, then flip.</div>'
+          + '<div class="row" style="justify-content:center;gap:10px;">'
+          + '  <button type="button" class="chip-btn'+(state.coinCall==='heads'?' active':'')+'" data-call="heads">Heads</button>'
+          + '  <button type="button" class="chip-btn'+(state.coinCall==='tails'?' active':'')+'" data-call="tails">Tails</button>'
+          + '</div>'
+          + '<div class="footnote" style="text-align:center;">Calling as: <b>'+esc(callerName)+'</b> &middot; <span id="swapCaller" style="text-decoration:underline;cursor:pointer;">switch to '+esc(state.teamNames[1-state.coinCaller])+'</span></div>'
+        ) : '')
+      + '<div class="coin-wrap">'
+      + '  <div class="coin'+(state.coinFlipping?' flipping':'')+(resultKnown && state.coinResult==='tails' && !state.coinFlipping ? ' show-tails':'')+'" id="coin">'
+      + '    <div class="coin-face heads">HEADS</div>'
+      + '    <div class="coin-face tails">TAILS</div>'
+      + '  </div>'
+      + '</div>'
+      + (!resultKnown
+          ? '<button class="btn magenta block" id="doFlip" '+(state.coinCall?'':'disabled')+'>Flip the coin</button>'
+          : '<div class="footnote" style="text-align:center;font-size:15px;">Landed on <b>'+state.coinResult+'</b>. <br><span style="font-family:\'Fraunces\',serif;font-style:italic;font-weight:800;color:var(--forest-deep);font-size:18px;">'+esc(state.teamNames[winner])+' goes first!</span></div>'
+        )
+      + '<div class="spacer"></div>'
+      + (resultKnown ? '<button class="btn block" id="toFirstTurn">Start Round 1 →</button>' : '');
+  };
+
+  SCREENS.turnIntro = function(){
+    var r = ROUNDS[state.round-1];
+    var team = state.teamNames[state.currentTeam];
+    return ''
+      + '<div class="round-pill" style="color:var(--'+r.color+');align-self:center;">Round '+state.round+' — '+r.name+'</div>'
+      + '<div class="rules-list" style="text-align:center;">'+esc(r.instruction)+'</div>'
+      + '<div class="spacer"></div>'
+      + '<div class="title-block">'
+      + '  <p style="margin-bottom:0;">Pass the phone to</p>'
+      + '  <h1 style="font-size:40px;">'+esc(team)+'</h1>'
+      + '</div>'
+      + '<div class="footnote" style="text-align:center;">'+state.bowl.length+' left in the bowl this round &middot; '+state.timerSeconds+'s per turn</div>'
+      + '<div class="spacer"></div>'
+      + '<button class="btn '+r.color+' block" id="startTurn">We\'re ready — Start!</button>';
+  };
+
+  SCREENS.turnActive = function(){
+    var r = ROUNDS[state.round-1];
+    return ''
+      + '<div class="round-pill" style="color:var(--'+r.color+');align-self:center;">'+esc(state.teamNames[state.currentTeam])+' &middot; '+r.name+'</div>'
+      + '<div class="timer-display" id="timerNum">'+state.timeLeft+'</div>'
+      + '<div class="word-card"><h2 id="wordText">'+esc(state.currentWord || '')+'</h2></div>'
+      + '<div class="score-strip">Net this turn: <b id="turnCount" style="font-family:\'Fraunces\',serif;font-style:italic;color:'+(state.turnNet<0?'var(--brick)':'var(--forest-deep)')+';">'+(state.turnNet>0?'+':'')+state.turnNet+'</b></div>'
+      + '<div class="row" style="gap:10px;">'
+      + '  <button class="btn forest" style="flex:1.4;" id="gotIt">✓ Got it!</button>'
+      + '  <button class="btn brick" style="flex:1;" id="passIt">⟲ Pass</button>'
+      + '</div>'
+      + '<div class="footnote" style="text-align:center;">Passing returns the word to the bowl and costs your team a point.</div>';
+  };
+
+  SCREENS.turnEnd = function(){
+    var team = state.teamNames[1-state.currentTeam];
+    return ''
+      + '<div class="flash-overlay"><h2>TIME’S UP!</h2></div>'
+      + '<div class="title-block">'
+      + '  <p>'+esc(team)+' net</p>'
+      + '  <h1 style="font-size:56px;color:'+(state.turnNet<0?'var(--brick)':'var(--magenta)')+';">'+(state.turnNet>0?'+':'')+state.turnNet+'</h1>'
+      + '  <p>points this turn</p>'
+      + '</div>'
+      + '<div class="rules-list" style="text-align:center;">'+state.bowl.length+' word'+(state.bowl.length===1?'':'s')+' left in the bowl for Round '+state.round+'.</div>'
+      + '<div class="spacer"></div>'
+      + '<button class="btn magenta block" id="nextTurn">Next up: '+esc(state.teamNames[state.currentTeam])+' →</button>';
+  };
+
+  SCREENS.roundEnd = function(){
+    var r = ROUNDS[state.round-1];
+    return ''
+      + '<div class="eyebrow">Round '+state.round+' complete</div>'
+      + '<h2 style="text-align:center;font-size:26px;font-style:italic;">'+esc(r.name)+' is in the books</h2>'
+      + scoreTable(state.round)
+      + '<div class="spacer"></div>'
+      + '<button class="btn '+ROUNDS[state.round].color+' block" id="nextRound">Start Round '+(state.round+1)+': '+ROUNDS[state.round].name+' →</button>';
+  };
+
+  SCREENS.final = function(){
+    var tA = totals(0), tB = totals(1);
+    var winnerText = tA === tB ? "It's a tie!" : (tA > tB ? esc(state.teamNames[0]) : esc(state.teamNames[1])) + ' wins!';
+    return ''
+      + '<div class="eyebrow">Game Over</div>'
+      + '<div class="title-block"><h1 style="font-size:34px;">'+winnerText+'</h1></div>'
+      + scoreTable(3)
+      + '<div class="spacer"></div>'
+      + '<button class="btn ghost block" id="playAgain">Start New Game →</button>';
+  };
+
+  function scoreTable(throughRound){
+    var rows = state.teamNames.map(function(name, i){
+      var cells = '';
+      for(var r=0;r<3;r++){
+        cells += '<td class="num">'+ (r < throughRound ? state.scores[i][r] : '–') +'</td>';
+      }
+      return '<tr><td class="name">'+esc(name)+'</td>'+cells+'<td class="num" style="font-weight:800;">'+totals(i)+'</td></tr>';
+    }).join('');
+    return '<table class="score-table"><thead><tr><th style="text-align:left;">Team</th><th>R1</th><th>R2</th><th>R3</th><th>Total</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+
+  function wireEvents(){
+    var byId = document.getElementById.bind(document);
+
+    if(state.screen === "setup"){
+      byId("teamA").addEventListener("input", function(e){ state.teamNames[0]=e.target.value||"Team 1"; save(); });
+      byId("teamB").addEventListener("input", function(e){ state.teamNames[1]=e.target.value||"Team 2"; save(); });
+      byId("wordsBox").addEventListener("input", function(e){
+        var lines = e.target.value.split("\n").map(function(l){return l.trim();}).filter(Boolean);
+        state.words = lines;
+        byId("wordCount").textContent = lines.length + " items";
+        save();
+      });
+      Array.prototype.forEach.call(document.querySelectorAll("#timerChips .chip-btn"), function(btn){
+        btn.addEventListener("click", function(){
+          state.timerSeconds = parseInt(btn.getAttribute("data-secs"),10);
+          save(); render();
+        });
+      });
+      byId("reshuffleWords").addEventListener("click", function(){
+        state.words = drawWords(WORDS_PER_GAME);
+        save(); render();
+      });
+      byId("toCoinflip").addEventListener("click", function(){
+        unlockAudio();
+        var lines = byId("wordsBox").value.split("\n").map(function(l){return l.trim();}).filter(Boolean);
+        if(lines.length < 4){ alert("Add at least 4 words or phrases to the bowl first."); return; }
+        state.words = lines;
+        state.scores = [[0,0,0],[0,0,0]];
+        state.round = 1;
+        state.screen = "coinflip";
+        save(); render();
+      });
+    }
+
+    if(state.screen === "coinflip"){
+      var swap = byId("swapCaller");
+      if(swap) swap.addEventListener("click", function(){
+        state.coinCaller = 1-state.coinCaller; state.coinCall = null; save(); render();
+      });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-call]"), function(btn){
+        btn.addEventListener("click", function(){
+          state.coinCall = btn.getAttribute("data-call");
+          save(); render();
+        });
+      });
+      var flipBtn = byId("doFlip");
+      if(flipBtn) flipBtn.addEventListener("click", function(){
+        unlockAudio();
+        state.coinFlipping = true;
+        var coinEl = byId("coin");
+        coinEl.classList.add("flipping");
+        var result = Math.random() < 0.5 ? "heads" : "tails";
+        setTimeout(function(){
+          state.coinFlipping = false;
+          state.coinResult = result;
+          save(); render();
+        }, 1450);
+      });
+      var toFirst = byId("toFirstTurn");
+      if(toFirst) toFirst.addEventListener("click", function(){
+        var winner = (state.coinCall === state.coinResult) ? state.coinCaller : (1-state.coinCaller);
+        state.currentTeam = winner;
+        startRoundBowl();
+        state.screen = "turnIntro";
+        save(); render();
+      });
+    }
+
+    if(state.screen === "turnIntro"){
+      byId("startTurn").addEventListener("click", function(){
+        unlockAudio();
+        beginTurn();
+      });
+    }
+
+    if(state.screen === "turnActive"){
+      byId("gotIt").addEventListener("click", markCorrect);
+      byId("passIt").addEventListener("click", markPass);
+    }
+
+    if(state.screen === "turnEnd"){
+      byId("nextTurn").addEventListener("click", function(){
+        state.screen = "turnIntro";
+        save(); render();
+      });
+    }
+
+    if(state.screen === "roundEnd"){
+      byId("nextRound").addEventListener("click", startNextRound);
+    }
+
+    if(state.screen === "final"){
+      byId("playAgain").addEventListener("click", function(){
+        var keepNames = state.teamNames, keepTimer = state.timerSeconds;
+        state = freshState();
+        state.teamNames = keepNames; state.timerSeconds = keepTimer;
+        save(); render();
+      });
+    }
+  }
+
+  render();
+})();
+</script>
+
+</body></html>
