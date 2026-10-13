@@ -225,9 +225,9 @@ section.block > h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:24px}
 .meta b{display:block;font:500 10.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
 .meta span{font-size:.95rem}
 .hero{margin:40px 0 0;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--soft-1);box-shadow:0 0 0 1px rgba(36,27,22,.07)}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:44px}
+.stats{display:grid;grid-template-columns:repeat(3,auto);gap:24px;margin-top:44px}
 .stat{border-top:1px solid var(--ink);padding-top:14px;min-width:0}
-.stat b{display:block;font-family:var(--f-display);font-weight:300;font-size:clamp(2rem,4vw,3.1rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat b{display:block;white-space:nowrap;font-family:var(--f-display);font-weight:300;font-size:clamp(2rem,4vw,3.1rem);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .stat span{display:block;margin-top:8px;color:var(--ink-2);font-size:.92rem}
 .built{list-style:none;margin:0;padding:0;display:grid;gap:14px;max-width:64ch}
 .built li{position:relative;padding-left:28px}
@@ -461,6 +461,7 @@ section.block > h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:24px}
 
 /* ---------- responsive ---------- */
 @media (max-width:1000px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat b{white-space:normal}
   .cover{grid-template-columns:1fr}
   .cover-r{grid-template-columns:1fr 1fr;align-items:start}
   .cover-r .card-index{margin-left:0}
@@ -800,7 +801,7 @@ const CASES=[
  built:['Transcribes every clip and assembles a first cut','Beat-matched cuts, captions, B-roll and sound effects','Round-trips that never overwrite my own edits'],
  flow:['Footage','Transcribe + analyse','First cut','I finish it'],
  dec:[['Additive only','Every pass starts from my latest edit and proves nothing was lost.'],['Re-check the output','The finished edit is re-transcribed to catch clipped words.'],['Privacy built in','My kids’ names are muted and captioned out automatically.']],
- stats:[['537','captions in one pass'],['5:16 → 2:45','talking head tightened'],['55','360° clips placed']],
+ stats:[['3\u00a0days → ~4\u00a0hrs','to edit a 30-minute vlog'],['537','captions in one pass'],['5:16 → 2:45','talking head tightened']],
  lesson:'AI takes the assembly so editors spend their hours on taste.',
  note:'opens in my own Final Cut, ready to finish'},
 {id:'voice',vis:'voice',cat:'Desktop app',title:'Dictation',line:'A private voice-to-text Mac app with my own hand-drawn mic as the interface.',
