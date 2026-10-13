@@ -54,6 +54,12 @@ a{color:inherit}
   background:linear-gradient(transparent,transparent) padding-box,linear-gradient(180deg,#fbfbfb,#9a9a9a 55%,#d9d9d9 80%,#7a7a7a) border-box;
   box-shadow:0 3px 4px rgba(0,0,0,.45)}
 
+/* quill cursor: nib tip is the hotspot; the pointer version has a blush vane and an oxblood nib */
+@media (pointer:fine){
+  html,body,.desk,.desk *{cursor:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="%23F7F3EC" stroke="%23F7F3EC" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity=".9"><path d="M30.5 1.5C22 2.5 13.5 8.5 9.5 19.5l3 3C23 18.5 29 11 30.5 1.5Z"/><path d="M29.5 2.5L6 26"/><path d="M6.6 25.2L1 31l1.3-5.2 2.4-1.9Z"/></g><path d="M30.5 1.5C22 2.5 13.5 8.5 9.5 19.5l3 3C23 18.5 29 11 30.5 1.5Z" fill="%23F7F3EC" stroke="%23241B16" stroke-width="1.1" stroke-linejoin="round"/><path d="M16.5 12.6l-2.2-.4M19.6 9.6l-2.3-.2M22.7 6.9l-2.2-.1M15 18.7l.7-2.4M18.4 15.7l.6-2.3M21.6 12.7l.6-2.2" stroke="%23241B16" stroke-width=".7" stroke-linecap="round" opacity=".55"/><path d="M29.5 2.5L6 26" stroke="%23241B16" stroke-width="1.2" stroke-linecap="round"/><path d="M6.6 25.2L1 31l1.3-5.2 2.4-1.9Z" fill="%23241B16" stroke="%23241B16" stroke-width=".8" stroke-linejoin="round"/></svg>') 1 31,auto}
+  .desk :is(a,button,summary,label,[role=button],.tile,.tile *,video){cursor:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="%23F7F3EC" stroke="%23F7F3EC" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity=".9"><path d="M30.5 1.5C22 2.5 13.5 8.5 9.5 19.5l3 3C23 18.5 29 11 30.5 1.5Z"/><path d="M29.5 2.5L6 26"/><path d="M6.6 25.2L1 31l1.3-5.2 2.4-1.9Z"/></g><path d="M30.5 1.5C22 2.5 13.5 8.5 9.5 19.5l3 3C23 18.5 29 11 30.5 1.5Z" fill="%23E2B9A6" stroke="%23241B16" stroke-width="1.1" stroke-linejoin="round"/><path d="M16.5 12.6l-2.2-.4M19.6 9.6l-2.3-.2M22.7 6.9l-2.2-.1M15 18.7l.7-2.4M18.4 15.7l.6-2.3M21.6 12.7l.6-2.2" stroke="%23241B16" stroke-width=".7" stroke-linecap="round" opacity=".55"/><path d="M29.5 2.5L6 26" stroke="%23241B16" stroke-width="1.2" stroke-linecap="round"/><path d="M6.6 25.2L1 31l1.3-5.2 2.4-1.9Z" fill="%237B2D26" stroke="%23241B16" stroke-width=".8" stroke-linejoin="round"/></svg>') 1 31,pointer}
+  .desk :is(input,textarea){cursor:text}
+}
 /* the page */
 .sheet{position:relative;z-index:2;margin-left:-14px;border-radius:3px 8px 8px 3px;background:var(--paper);
   box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 18px 40px rgba(0,0,0,.45),3px 3px 0 -1px #e9e2d6,6px 6px 0 -2px #ddd4c6;
@@ -101,6 +107,14 @@ a{color:inherit}
 .media.phone video{display:block;width:100%;aspect-ratio:600/1298;object-fit:cover;border-radius:32px;background:#e9e1d3}
 .media.wide .screen{width:100%;border-radius:8px;overflow:hidden}
 .media.wide video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.media.tour .tourbox{position:relative;aspect-ratio:16/10;background:#14130F;overflow:hidden}
+.media.tour .tourbox>img,.media.tour .tourbox>iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;display:block}
+.tourgo{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:10px;appearance:none;border:0;cursor:pointer;
+  padding:13px 20px 13px 16px;border-radius:999px;background:var(--paper);color:var(--ink);font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;
+  box-shadow:0 10px 30px rgba(20,12,8,.35);transition:transform .25s var(--ease),box-shadow .25s}
+.tourgo b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--pen);color:var(--paper);font-size:10px;padding-left:2px}
+.tourgo:hover{transform:scale(1.04);box-shadow:0 14px 36px rgba(20,12,8,.42)}
+.tourgo[disabled]{cursor:default;transform:none;opacity:.92}
 .media figcaption{font:400 12px/1.5 var(--f-mono);letter-spacing:.04em;color:var(--ink-2);text-align:center;max-width:52ch}
 
 /* ---------- type ---------- */
@@ -772,6 +786,7 @@ const CASES=[
  dec:[['One source of truth','Drawings and model can’t disagree about where a wall is.'],['Buttons, not skills','Named rooms and a minimap, because I don’t do Blender.'],['Five checks per build','Doors, windows, reachability, clear doorways, label clashes.']],
  stats:[['12,114','sq ft drawn'],['41','sheets from one source'],['5','checks on every build']],
  lesson:'Generate every deliverable from one source and nothing drifts, whether it’s a house or a campaign.',
+ media:{kind:'tour',src:'homestead-tour/',poster:'tour-poster.jpg',cap:'The real 3D model, walking itself. Move your cursor to look around.'},
  note:'I caught most of the bugs in the renders myself',
  gallery:[['hs-aerial.jpg','Aerial, rendered in Blender'],['hs-plan.svg','First floor, generated'],['hs-solarium.jpg','Glass rotunda'],['hs-gallery.jpg','Glazed gallery'],['hs-court.jpg','Pool court'],['hs-foyer.jpg','Stair hall']]},
 {id:'video',vis:'video',cat:'Video post-production',title:'Assistant Editor',line:'Claude assembles my vlogs in Final Cut Pro. I make the creative calls.',
@@ -863,7 +878,7 @@ grid.innerHTML=CASES.map(c=>`<a class="tile" href="#${c.id}"><figure class="fram
 /* ---------- render cases ---------- */
 const casesEl=document.getElementById('cases');
 casesEl.innerHTML=CASES.map((c,i)=>{const n=CASES[(i+1)%CASES.length];
- const media=c.media?`<section class="block"><h2>See it in use</h2><figure class="media ${c.media.kind}"><div class="screen">${c.media.kind==='desk'?'<div class="chrome"><i></i><i></i><i></i></div>':''}<video src="assets/${c.media.src}" muted loop playsinline preload="metadata" ${c.media.kind==='wide'?'controls':''}></video></div><figcaption>${c.media.cap}</figcaption></figure></section>`:'';
+ const media=c.media?`<section class="block"><h2>See it in use</h2><figure class="media ${c.media.kind==='tour'?'desk tour':c.media.kind}"><div class="screen">${c.media.kind==='desk'||c.media.kind==='tour'?'<div class="chrome"><i></i><i></i><i></i></div>':''}${c.media.kind==='tour'?`<div class="tourbox" data-src="${c.media.src}"><img src="assets/${c.media.poster}" alt="Inside the 3D model: the foyer stair and the arch into the great room"><button class="tourgo" type="button"><b>▶</b>Walk through</button></div>`:`<video src="assets/${c.media.src}" muted loop playsinline preload="metadata" ${c.media.kind==='wide'?'controls':''}></video>`}</div><figcaption>${c.media.cap}</figcaption></figure></section>`:'';
  return `<section class="pg" data-page="${c.id}" data-tab="work" aria-label="${c.title}" hidden>
  <div class="runhead"><span>Work · ${c.cat}</span><span>${String(i+1).padStart(2,'0')} of ${String(CASES.length).padStart(2,'0')}</span></div>
  <a class="back" href="#work"><span>←</span> All work</a>
@@ -940,6 +955,7 @@ function show(id,animate){
   const next=pages[id];if(next===cur)return;
   if(cur&&animate&&!reduce)turnPage(cur,rank(next)>=rank(cur)); /* clone before hiding, so it keeps the scroll offset */
   if(cur)cur.hidden=true;
+  if(typeof resetTours==='function')resetTours();
   next.hidden=false;
   scroller.style.scrollBehavior='auto';scroller.scrollTop=0;scroller.style.scrollBehavior='';
   cur=next;
@@ -973,6 +989,12 @@ function observeTiles(){
 document.querySelectorAll('.tile').forEach(t=>{const v=t.querySelector('video');if(!v)return;
   t.addEventListener('mouseenter',()=>{v.currentTime=0;v.play().catch(()=>{})});
   t.addEventListener('mouseleave',()=>{v.pause();if(v.duration)v.currentTime=v.duration-.05});});
+/* the 3D tour: poster until asked, then the live model in a frame; torn down when you leave the page */
+const LIVE=/stephanienadia\.com$|github\.io$/.test(location.hostname);
+document.querySelectorAll('.tourbox').forEach(box=>{const go=box.querySelector('.tourgo');
+  if(!LIVE){go.disabled=true;go.lastChild.textContent='Live on stephanienadia.com';return}
+  go.addEventListener('click',()=>{const f=document.createElement('iframe');f.src=box.dataset.src;f.title='Walk through the Homestead';f.allow='fullscreen';box.appendChild(f);go.hidden=true});});
+function resetTours(){document.querySelectorAll('.tourbox iframe').forEach(f=>{const box=f.parentNode;f.remove();box.querySelector('.tourgo').hidden=false})}
 /* live app links only work on the real site, not inside a preview */
 if(!/stephanienadia\.com$|github\.io$/.test(location.hostname))document.querySelectorAll('.trylive').forEach(a=>a.hidden=true);
 /* copy email */
