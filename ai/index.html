@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Stephanie Nadia Portfolio</title>
 <meta name="description" content="Stephanie Nadia: creative director building AI systems people actually use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stephanienadia.com/ai/">
+<meta property="og:title" content="Stephanie Nadia · Applied AI Portfolio">
+<meta property="og:description" content="Creative director building AI systems people actually use. Ten working projects, built with Claude Code.">
+<meta property="og:image" content="https://stephanienadia.com/ai/assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Reenie+Beanie&display=swap">
@@ -518,7 +525,7 @@ section.block > h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:24px}
 
         <!-- COVER -->
         <section class="pg" data-page="cover" aria-label="Cover">
-          <div class="runhead"><span>Stephanie Nadia</span><span>Portfolio · 2026</span></div>
+          <div class="runhead"><span>Stephanie Nadia</span><span>Portfolio · 2026<a class="live-only" href="resume/" style="margin-left:18px;color:var(--pen);text-decoration:none">Résumé ↗</a></span></div>
           <div class="cover">
             <div class="cover-l">
               <p class="eyebrow">Creative direction · Applied AI · New York</p>
@@ -674,6 +681,7 @@ section.block > h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:24px}
           <p class="lede" style="margin-top:22px">Looking for a team that wants AI used well.</p>
           <div class="contact-list">
             <div class="crow"><b>Email</b><span class="val" id="email">hello@stephanienadia.com</span><button class="copy" id="copy" type="button">Copy</button></div>
+            <div class="crow live-only"><b>Résumé</b><a class="val" href="resume/" target="_blank" rel="noopener">View résumé</a><span class="arr" aria-hidden="true">↗</span></div>
             <div class="crow"><b>Instagram</b><a class="val" href="https://www.instagram.com/stephanienadia/" target="_blank" rel="noopener">@stephanienadia</a><span class="arr" aria-hidden="true">↗</span></div>
             <div class="crow"><b>LinkedIn</b><a class="val" href="https://www.linkedin.com/in/stephanie-rampersad" target="_blank" rel="noopener">stephanie-rampersad</a><span class="arr" aria-hidden="true">↗</span></div>
             <div class="crow"><b>YouTube</b><a class="val" href="https://www.youtube.com/@stephanienadiavlogs" target="_blank" rel="noopener">@stephanienadiavlogs</a><span class="arr" aria-hidden="true">↗</span></div>
@@ -992,7 +1000,7 @@ document.querySelectorAll('.tourbox').forEach(box=>{const go=box.querySelector('
   go.addEventListener('click',()=>{const f=document.createElement('iframe');f.src=box.dataset.src;f.title='Walk through the Homestead';f.allow='fullscreen';box.appendChild(f);go.hidden=true});});
 function resetTours(){document.querySelectorAll('.tourbox iframe').forEach(f=>{const box=f.parentNode;f.remove();box.querySelector('.tourgo').hidden=false})}
 /* live app links only work on the real site, not inside a preview */
-if(!/stephanienadia\.com$|github\.io$/.test(location.hostname))document.querySelectorAll('.trylive').forEach(a=>a.hidden=true);
+if(!/stephanienadia\.com$|github\.io$/.test(location.hostname))document.querySelectorAll('.trylive,.live-only').forEach(a=>a.hidden=true);
 /* copy email */
 const copyBtn=document.getElementById('copy');
 copyBtn.addEventListener('click',()=>{
