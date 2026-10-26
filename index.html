@@ -3,89 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Stephanie Nadia</title>
-<meta name="description" content="Stephanie Nadia. Food and family stories from New York City. Pull up a chair.">
+<title>Stephanie Nadia | Food, family and life in New York City</title>
+<meta name="description" content="Food reviews, family outings and home cooking from a family of four in New York City. Pull up a chair.">
+<meta property="og:title" content="Stephanie Nadia | Food, family and life in New York City"><meta property="og:description" content="Food reviews, family outings and home cooking from a family of four in New York City. Pull up a chair."><meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400&family=Reenie+Beanie&display=swap">
-<style>
-:root{
-  --butter:#F3E6C2; --velvet:#847327; --terracotta:#B0553A; --blush:#DCA991;
-  --honey:#D1A25E; --merlot:#4B0B0C; --espresso:#221410;
-  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
-  --sans:'Instrument Sans',-apple-system,'Helvetica Neue',Arial,sans-serif;
-  --mono:'DM Mono',ui-monospace,Menlo,monospace;
-  --hand:'Reenie Beanie','Bradley Hand',cursive;
-  color-scheme:light;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--butter);color:var(--espresso);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
-a{color:inherit}
-.page{min-height:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:clamp(32px,6vw,96px);
-  max-width:1180px;margin:0 auto;padding-inline:clamp(20px,5vw,64px);padding-block:clamp(32px,6vh,72px)}
-.label{font:400 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--velvet)}
-h1{font:400 clamp(64px,9.5vw,132px)/.9 var(--serif);color:var(--merlot);margin:22px 0 0;letter-spacing:-.01em}
-h1 i{display:block;padding-left:.32em}
-.hand{font:400 clamp(30px,3.4vw,42px)/1 var(--hand);color:var(--terracotta);transform:rotate(-4deg);display:inline-block;margin:10px 0 0 clamp(120px,18vw,260px)}
-.lede{font:400 clamp(22px,2.1vw,27px)/1.3 var(--serif);color:var(--espresso);max-width:30ch;margin:34px 0 0}
-.lede i{color:var(--merlot)}
-.rule{height:0;border-top:1px solid var(--honey);border-bottom:1px solid var(--honey);padding-top:3px;margin:34px 0 22px;max-width:440px}
-.links{display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none;margin:0;padding:0}
-.links a{font:500 15px/1 var(--sans);text-decoration:none;color:var(--merlot);border-bottom:1px solid rgba(75,11,12,.25);padding-bottom:4px;transition:border-color .2s,color .2s}
-.links a:hover{color:var(--terracotta);border-color:var(--terracotta)}
-.mail{margin:22px 0 0;font:400 13px/1.4 var(--mono);letter-spacing:.06em;color:var(--espresso)}
-.mail a{text-decoration:none;border-bottom:1px solid var(--blush)}
-.soon{margin:30px 0 0;font:400 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--velvet);opacity:.85}
-
-/* the arch */
-.frame{position:relative;justify-self:center;width:min(100%,400px)}
-.arch{position:relative;aspect-ratio:3/4.1;max-width:100%;border-radius:999px 999px 6px 6px;background:var(--velvet);padding:14px;z-index:1}
-.arch img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:999px 999px 2px 2px}
-.sun{position:absolute;width:38%;aspect-ratio:1;border-radius:50%;background:var(--terracotta);top:-6%;right:-12%;z-index:0}
-.seal{position:absolute;left:-9%;bottom:9%;z-index:2;width:96px;height:96px;border-radius:50%;background:var(--butter);
-  display:grid;place-items:center;box-shadow:0 0 0 1px var(--honey),0 0 0 5px var(--butter),0 0 0 6px var(--honey),0 10px 24px rgba(34,20,16,.18)}
-.seal span{font:italic 400 40px/1 var(--serif);color:var(--merlot);transform:translateY(-3px)}
-.blush{position:absolute;inset:auto -7% -5% 18%;height:22%;background:var(--blush);border-radius:4px;z-index:0}
-
-@media (max-width:820px){
-  .page{grid-template-columns:1fr;gap:28px;align-content:start}
-  .frame{order:-1;width:min(62vw,260px);margin-top:12px}
-  .seal{width:72px;height:72px}.seal span{font-size:30px}
-  .hand{margin-left:clamp(90px,30vw,180px)}
-  .lede{margin-top:24px}
-}
-@media (prefers-reduced-motion:no-preference){
-  .copy>*,.frame{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
-  .copy>*:nth-child(2){animation-delay:.06s}.copy>*:nth-child(3){animation-delay:.14s}
-  .copy>*:nth-child(4){animation-delay:.2s}.copy>*:nth-child(n+5){animation-delay:.26s}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}}
-  .hand{animation-name:rise-hand}
-  @keyframes rise-hand{from{opacity:0;transform:rotate(-4deg) translateY(10px)}to{transform:rotate(-4deg)}}
-}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<main class="page">
+<header class="nav"><div class="wrap">
+<a class="brand" href="./">stephanie <i>nadia</i></a>
+<nav aria-label="Main"><ul><li><a href="partner/">Partner with us</a></li><li><a href="why/">Why us</a></li><li><a href="about/">About</a></li><li><a href="media-kit/Stephanie-Nadia-Media-Kit-2026.pdf" target="_blank" rel="noopener">Media kit</a></li></ul></nav>
+</div></header>
+
+<main>
+<div class="hero">
   <div class="copy">
-    <div class="label">Food · Family · New York City</div>
-    <h1>Stephanie <i>Nadia</i></h1>
-    <div class="hand">pull up a chair.</div>
-    <p class="lede">I make food and family stories that feel like being <i>invited over.</i></p>
-    <div class="rule" aria-hidden="true"></div>
+    <span class="label">food · family · new york city</span>
+    <h1>stephanie <i>nadia</i></h1>
+    <p class="lede">We do life in New York City together: the restaurants, the outings, the family of four, and the table at home. Pull up a chair, <i>laugh with us.</i></p>
     <ul class="links">
       <li><a href="https://www.youtube.com/@stephanienadiavlogs" target="_blank" rel="noopener">YouTube</a></li>
       <li><a href="https://www.instagram.com/stephanienadia/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@xostephanienadia" target="_blank" rel="noopener">TikTok</a></li>
     </ul>
-    <p class="mail">Partnerships · <a href="mailto:hello@stephanienadia.com">hello@stephanienadia.com</a></p>
-    <p class="soon">The full table is being set</p>
   </div>
-  <div class="frame">
-    <div class="sun" aria-hidden="true"></div>
-    <div class="blush" aria-hidden="true"></div>
-    <div class="arch"><img src="assets/portrait.jpg" alt="Stephanie Nadia" width="427" height="760"></div>
-    <div class="seal" aria-hidden="true"><span>sn</span></div>
+  <div class="collage">
+    <div class="tile a"><img src="assets/img/smileA.jpg" alt="Stephanie smiling at a cafe" loading="lazy" style="object-position:50% 30%"><span class="cap">new york city</span></div>
+    <div class="tile b"><img src="assets/img/pour.jpg" alt="Pouring balsamic into olive oil" loading="lazy" style="object-position:30% 50%"></div>
+    <div class="tile c"><img src="assets/img/burrata.jpg" alt="Burrata at a New York restaurant" loading="lazy"></div>
+    <div class="tile d"><img src="assets/img/cake.jpg" alt="Chocolate cake with raspberries" loading="lazy"></div>
   </div>
+</div>
+
+<section class="olive-bg"><div class="wrap">
+  <div class="sec-head"><span class="label">what we share</span>
+    <h2>dinner out. dinner in. <i>a life in between.</i></h2>
+    <p>Food is where we start, and the city is where we live. Here is what you'll find at our table.</p></div>
+  <div class="pillars">
+    <article class="pillar"><div class="tile "><img src="assets/img/tacos.jpg" alt="Plantain tacos with Haitian flags" loading="lazy"></div>
+      <h3 style="margin-top:12px">eat the city</h3>
+      <p>Honest reviews of the restaurants, bakeries and hotels we visit, with the price on screen and a real verdict.</p></article>
+    <article class="pillar"><div class="tile "><img src="assets/img/salad.jpg" alt="Chickpea, cucumber and tomato salad with homemade dressing" loading="lazy" style="object-position:50% 55%"></div>
+      <h3 style="margin-top:12px">cook at home</h3>
+      <p>Recipes worth saving from our own kitchen. They start with Trinidadian, Ecuadorian and Haitian roots and travel well beyond them.</p></article>
+    <article class="pillar"><div class="tile "><img src="assets/img/smileB.jpg" alt="Stephanie with a drink at a restaurant" loading="lazy" style="object-position:50% 25%"></div>
+      <h3 style="margin-top:12px">live in new york</h3>
+      <p>The outings, the neighborhoods, the seasons, and everyday life as a family of four in the city we call home.</p></article>
+  </div>
+</div></section>
+
+<section class="bleed"><div class="mosaic">
+  <div class="tile w2"><img src="assets/img/paella.jpg" alt="Seafood paella" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/tart.jpg" alt="Strawberry pastry" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/opera.jpg" alt="Layered opera cake" loading="lazy"></div>
+  <div class="tile h2"><img src="assets/img/honeycomb.jpg" alt="Crab curry with a honeycomb tuile" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/cocktail.jpg" alt="A citrus cocktail with mint" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/cauli.jpg" alt="Cheesy baked cauliflower" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/sardine.jpg" alt="Tinned sardines" loading="lazy"></div>
+  <div class="tile w2"><img src="assets/img/shrimp.jpg" alt="Crispy shrimp" loading="lazy"></div>
+  <div class="tile "><img src="assets/img/endive.jpg" alt="Endive salad" loading="lazy"></div>
+</div></section>
+
+<section><div class="wrap split flip">
+  <div>
+    <span class="label">our table</span>
+    <h2 style="margin-top:16px">make the most of life and the people we love, <i>wherever we are.</i></h2>
+    <div class="prose" style="margin-top:26px">
+      <p>Right now, that's New York City, with our family, really good food, and even better conversation. We would love for you to sit with us.</p>
+    </div>
+    <div class="btns" style="margin-top:30px">
+      <a class="btn" href="https://www.youtube.com/@stephanienadiavlogs" target="_blank" rel="noopener">Watch on YouTube</a>
+      <a class="btn ghost" href="about/">Meet us</a>
+    </div>
+  </div>
+  <div class="collage" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;aspect-ratio:1/1">
+    <div class="tile "><img src="assets/img/steak.jpg" alt="A dinner party table with steak and sides" loading="lazy" style="object-position:40% 50%"></div>
+    <div class="tile "><img src="assets/img/latte.jpg" alt="Fig matcha latte" loading="lazy" style="object-position:78% 50%"></div>
+    <div class="tile "><img src="assets/img/bagel.jpg" alt="Breakfast sandwich on a bagel" loading="lazy"></div>
+    <div class="tile "><img src="assets/img/salmon.jpg" alt="Salmon over rice" loading="lazy"></div>
+  </div>
+</div></section>
+
+<section class="caramel-bg"><div class="wrap">
+  <div class="sec-head"><span class="label">work with us</span>
+    <h2>restaurants, hotels, food brands and <i>family brands.</i></h2>
+    <p>See where we fit, why brands choose us, and download the media kit.</p></div>
+  <div class="btns">
+    <a class="btn" href="partner/">Ways to partner</a>
+    <a class="btn ghost" href="why/">Why work with us</a>
+    <a class="btn ghost" href="media-kit/Stephanie-Nadia-Media-Kit-2026.pdf" target="_blank" rel="noopener">Media kit (PDF)</a>
+  </div>
+</div></section>
 </main>
+<div class="strip gingham" aria-hidden="true"></div>
+<footer><div class="wrap">
+<ul class="links">
+<li><a href="https://www.youtube.com/@stephanienadiavlogs" target="_blank" rel="noopener">YouTube</a></li>
+<li><a href="https://www.instagram.com/stephanienadia/" target="_blank" rel="noopener">Instagram</a></li>
+<li><a href="https://www.tiktok.com/@xostephanienadia" target="_blank" rel="noopener">TikTok</a></li>
+<li><a href="https://www.instagram.com/aedi_agency/" target="_blank" rel="noopener">Aedi Agency</a></li>
+<li><a href="media-kit/Stephanie-Nadia-Media-Kit-2026.pdf" target="_blank" rel="noopener">Media kit</a></li>
+</ul>
+<small>partnerships · <a href="mailto:hello@stephanienadia.com">hello@stephanienadia.com</a></small>
+</div></footer>
 </body>
 </html>
