@@ -201,12 +201,13 @@ function show(v){
  document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('month').hidden=v!=='month';
  document.getElementById('bw').setAttribute('aria-pressed',v==='week');document.getElementById('bm').setAttribute('aria-pressed',v==='month');
  if(v==='week')renderWeek();else renderMonth();
- try{history.replaceState(null,'',location.pathname+location.search+'#'+v)}catch(e){}
+ 
 }
-document.getElementById('bw').onclick=()=>show('week');
-document.getElementById('bm').onclick=()=>show('month');
+const curWeek=()=>{let s=sun(TODAY);if(s<first)s=first;if(s>last)s=last;return s};
+document.getElementById('bw').onclick=()=>{wk=curWeek();show('week')};
+document.getElementById('bm').onclick=()=>{sel=null;{const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}show('month')};
 if(!sel){const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}
-show(location.hash==='#week'?'week':'month');
+show('month');
 </script>
 </body>
 </html>
