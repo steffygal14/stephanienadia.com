@@ -100,16 +100,11 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
  <p class="sub">What you film, what I edit, and what goes live. Times are Pacific.</p>
 </header>
 <div class="seg" role="group" aria-label="View"><button id="bm" aria-pressed="true">Month</button><button id="bw" aria-pressed="false">Week</button></div>
- <div class="key" id="key" aria-label="Key">
-  <div class="row"><div class="lab">Color</div><div class="cols3">
+ <div class="key" id="key" aria-label="Color key"><div class="row"><div class="lab">Color</div><div class="cols3">
    <div class="cl"><span class="sw" style="background:var(--film)"></span><div><b>You film</b><span>upload, approve</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--edit)"></span><div><b>Steph edits</b><span>nothing for you</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--post)"></span><div><b>Goes live</b><span>at the set time</span></div></div>
-  </div></div>
-  <div class="row"><div class="lab">Type</div><div class="shapes">
-   <div><i class="g" id="k-signature"></i>Signature reel</div><div><i class="g" id="k-organic"></i>Organic reel</div><div><i class="g" id="k-carousel"></i>Carousel</div><div><i class="g" id="k-stories"></i>Stories</div><div><i class="g" id="k-task"></i>Upload or approve</div>
-  </div></div>
- </div>
+  </div></div></div>
 <section id="month"></section>
 <section id="week" hidden></section>
 <p class="note">Dates can shift. If anything changes, I'll tell you and update this page. Guitar and writing months are proposed dates for now.</p>
@@ -124,7 +119,6 @@ const ICON={
  task:'<svg viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm-1.4 13L4.8 10.2l1.4-1.4 2.4 2.4 5.2-5.2 1.4 1.4z"/></svg>'
 };
 const iconKind=k=>(k==='upload'||k==='approve')?'task':k;
-for(const k of Object.keys(ICON)){const el=document.getElementById('k-'+k);if(el){el.innerHTML=ICON[k];el.style.color='var(--ink)'}}
 const PHASE={film:'You film',edit:'Steph edits',post:'Goes live'};
 const KINDTAG={upload:'You upload',approve:'You approve'};
 const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -162,7 +156,7 @@ function renderWeek(){
  if(!mine.length&&!stories)h+=`<li class="none">Nothing due from you this week. Steph has the edits and the posting.</li>`;
  for(const [d,e] of mine)h+=`<li><span class="dy">${DOW[d.getDay()]} ${d.getDate()}</span><div><b>${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}</div></li>`;
  if(stories)h+=`<li><span class="dy">Daily</span><div><b>Stories</b><small>3 frames a day, filmed in the moment.</small></div></li>`;
- h+=`</ul></div><div class="eyebrow" style="margin-bottom:6px">Day by day</div>`;
+ h+=`</ul></div><div class="key tkey" aria-label="Type key"><div class="row"><div class="lab">Type</div><div class="shapes">${[['signature','Signature reel'],['organic','Organic reel'],['carousel','Carousel'],['stories','Stories'],['task','Upload or approve']].map(([k,l])=>`<div><i class="g" style="color:var(--ink)">${ICON[k]}</i>${l}</div>`).join('')}</div></div></div><div class="eyebrow" style="margin-bottom:6px">Day by day</div>`;
  for(const d of days){
   const list=(by[iso(d)]||[]).filter(e=>e.kind!=='stories');
   const st=(by[iso(d)]||[]).filter(e=>e.kind==='stories');
@@ -183,7 +177,7 @@ function renderMonth(){
  const start=sun(new Date(y,m,1));const end=add(sun(new Date(y,m+1,0)),6);
  for(let d=start;d<=end;d=add(d,1)){
   const out=d.getMonth()!==m,list=(by[iso(d)]||[]).filter(e=>e.kind!=='stories');
-  const dots=list.map(e=>`<span class="dt ${e.phase}">${ICON[iconKind(e.kind)]}</span>`).join('');
+  const dots=list.map(e=>`<span class="dt ${e.phase}">${ICON.carousel}</span>`).join('');
   const chips=list.slice(0,3).map(e=>`<span class="ch ${e.phase}">${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more">+${list.length-3} more</span>`:'');
   h+=`<button class="c${out?' out':''}${iso(d)===todayIso?' today':''}" data-d="${iso(d)}" aria-pressed="${sel===iso(d)}" aria-label="${MON[d.getMonth()]} ${d.getDate()}, ${list.length} items"><span class="n">${d.getDate()}</span><span class="dots">${out?'':dots}</span><span class="chips">${out?'':chips}</span></button>`;
  }
