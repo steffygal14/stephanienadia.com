@@ -86,6 +86,12 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .bk li>b{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1;color:var(--soft)}
 .bk h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;color:var(--bg)}
 .bk li p{font-size:15px;line-height:1.4;color:var(--soft);margin-top:3px}
+.oo{margin-top:22px;border:2px solid var(--ink);padding:18px 20px 6px;background:var(--card)}
+.oo .eyebrow{color:var(--mut)}.oo h2{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.15;color:var(--ink);margin:6px 0 4px}
+.oo .bsub{font-size:15px;line-height:1.45;color:var(--mut)}
+.oo li{padding:16px 0;border-top:1px solid var(--line);margin-top:12px}
+.oo h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;color:var(--ink)}
+.oo li p{font-size:15px;line-height:1.45;color:var(--body);margin-top:4px}
 .note{font-size:14.5px;color:var(--mut);margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
 @media (min-width:640px){
  .c{min-height:104px;align-items:stretch}.dots{display:none}
@@ -127,6 +133,7 @@ const ICON={
  task:'<svg viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm-1.4 13L4.8 10.2l1.4-1.4 2.4 2.4 5.2-5.2 1.4 1.4z"/></svg>'
 };
 const BUCKET=[["Breakfast at EJ's","Cafecito, breakfast and a thought."],["On set","A trend or a moment with your co-workers. Cleared first."],["Reacting to my own work","Watch something back and say what you really think."],["A thought, out loud","A line or a poem over a still frame."],["The good-man check-in","One honest sentence on how you're showing up this week."],["Joy, caught","Singing, dancing, the moment you get excited."]];
+const ONEOFF=[["POV: what it's really like being managed","A reel with the on-screen line \u201cPOV: what it's really like to have your social media managed by your best friend.\u201d Played for laughs: I push you off the cliff, and you start your page. Short and silly, no script."]];
 const iconKind=k=>(k==='upload'||k==='approve')?'task':k;
 const PHASE={film:'You film',edit:'Steph edits',post:'Goes live'};
 const KINDTAG={upload:'You upload',approve:'You approve'};
@@ -201,7 +208,7 @@ function renderMonth(){
  }else dd.innerHTML=`<p class="empty">Tap a day to see what is happening.</p>`;
 }
 function renderBucket(){
- document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div>`;
+ document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div><div class="oo"><div class="eyebrow">One-offs</div><h2>Ideas that only happen once</h2><p class="bsub">Not part of the weekly rotation. We pick a week for each one together.</p><ul>`+ONEOFF.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div>`;
 }
 function show(v){
  document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('bucket').hidden=v!=='bucket';document.getElementById('bb').setAttribute('aria-pressed',v==='bucket');document.getElementById('month').hidden=v!=='month';
