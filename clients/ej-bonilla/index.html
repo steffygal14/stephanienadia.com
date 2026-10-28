@@ -93,6 +93,16 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .oo li{padding:16px 0;border-top:1px solid var(--line);margin-top:12px}
 .oo h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;color:var(--ink)}
 .oo li p{font-size:15px;line-height:1.45;color:var(--body);margin-top:4px}
+.bank{margin-top:22px;border:2px solid var(--ink);background:var(--card)}
+.bank summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bank summary::-webkit-details-marker{display:none}
+.bank summary h2{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.15;color:var(--ink);margin-top:4px}
+.bank summary .pm{font-size:26px;line-height:1;color:var(--ink);flex:none}.bank[open] summary .pm::before{content:"\2212"}.bank:not([open]) summary .pm::before{content:"+"}
+.bank .in{padding:0 20px 6px;border-top:1px solid var(--line)}
+.bank .bsub{font-size:15px;line-height:1.45;color:var(--mut);padding:14px 0 4px}
+.bank li{padding:14px 0;border-top:1px solid var(--line);margin-top:10px}
+.bank h3{font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.2;color:var(--ink)}
+.bank li p{font-size:15px;line-height:1.45;color:var(--body);margin-top:3px}
 .note{font-size:14.5px;color:var(--mut);margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
 @media (min-width:640px){
  .c{min-height:104px;align-items:stretch}.dots{display:none}
@@ -136,6 +146,7 @@ const ICON={
 };
 const BUCKET=[["Breakfast at EJ's","Cafecito, breakfast and a thought."],["On set","A trend or a moment with your co-workers. Cleared first."],["Reacting to my own work","Watch something back and say what you really think."],["A thought, out loud","A line or a poem over a still frame."],["The good-man check-in","One honest sentence on how you're showing up this week."],["Joy, caught","Singing, dancing, the moment you get excited."]];
 const ONEOFF=[["POV: what it's really like being managed","A reel with the on-screen line \u201cPOV: what it's really like to have your social media managed by your best friend.\u201d Played for laughs: I push you off the cliff, and you start your page. Short and silly, no script."]];
+const BANK=[["Flying lessons","Learn to fly a plane. Lessons are the 30 days."],["Small Latina creators","Celebrate and support them, one at a time. Highlight their work."],["Trumpet","Pick up the trumpet and play it."],["The gym","Show up and build the habit."],["Muay Thai","Train for 30 days, then end with a competition or a face-off with somebody."]];
 const iconKind=k=>(k==='upload'||k==='approve')?'task':k;
 const PHASE={film:'You film',edit:'Steph edits',post:'Goes live'};
 const KINDTAG={note:'Heads up',upload:'You upload',approve:'You approve'};
@@ -210,7 +221,7 @@ function renderMonth(){
  }else dd.innerHTML=`<p class="empty">Tap a day to see what is happening.</p>`;
 }
 function renderBucket(){
- document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div><div class="oo"><div class="eyebrow">One-offs</div><h2>Ideas that only happen once</h2><p class="bsub">Not part of the weekly rotation. We pick a week for each one together.</p><ul>`+ONEOFF.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div>`;
+ document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div><div class="oo"><div class="eyebrow">One-offs</div><h2>Ideas that only happen once</h2><p class="bsub">Not part of the weekly rotation. We pick a week for each one together.</p><ul>`+ONEOFF.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div><details class="bank"><summary><div><div class="eyebrow">Series bank</div><h2>More <i>I Promise</i> ideas</h2></div><span class="pm" aria-hidden="true"></span></summary><div class="in"><p class="bsub">Future 30-day promises for The Promises I Keep to Myself, after dance, guitar and writing. Parked here until we pick the next one.</p><ul>`+BANK.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div></details>`;
 }
 function show(v){
  document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('bucket').hidden=v!=='bucket';document.getElementById('bb').setAttribute('aria-pressed',v==='bucket');document.getElementById('month').hidden=v!=='month';
