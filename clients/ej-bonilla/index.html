@@ -35,7 +35,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .shapes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center}
 .shapes div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;line-height:1.2;color:var(--body)}
 .shapes .g{margin:0}
-.seg{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);margin:16px 0 18px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);margin:16px 0 18px}
 .seg button{border:0;background:transparent;padding:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .nav{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;gap:8px;margin-bottom:14px}
@@ -79,6 +79,13 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .detail{margin-top:16px;border-top:2px solid var(--ink);padding-top:14px}
 .detail>h3{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--ink);margin-bottom:10px}
 .detail .go{margin-top:12px;border:2px solid var(--ink);background:transparent;padding:10px 14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12.5px;color:var(--ink)}
+.bk{background:var(--ink);color:var(--bg);padding:20px 20px 8px}
+.bk .eyebrow{color:var(--soft)}.bk h2{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;color:var(--bg);margin:6px 0 8px}
+.bk .bsub{font-size:15px;line-height:1.45;color:var(--soft);margin-bottom:6px}
+.bk li{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:16px 0;border-top:1px solid rgba(242,239,227,.25)}
+.bk li>b{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1;color:var(--soft)}
+.bk h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;color:var(--bg)}
+.bk li p{font-size:15px;line-height:1.4;color:var(--soft);margin-top:3px}
 .note{font-size:14.5px;color:var(--mut);margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
 @media (min-width:640px){
  .c{min-height:104px;align-items:stretch}.dots{display:none}
@@ -99,7 +106,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
  <h1>EJ, <i>your calendar</i></h1>
  <p class="sub">What you film, what I edit, and what goes live. Times are Pacific.</p>
 </header>
-<div class="seg" role="group" aria-label="View"><button id="bm" aria-pressed="true">Month</button><button id="bw" aria-pressed="false">Week</button></div>
+<div class="seg" role="group" aria-label="View"><button id="bm" aria-pressed="true">Month</button><button id="bw" aria-pressed="false">Week</button><button id="bb" aria-pressed="false">Bucket</button></div>
  <div class="key" id="key" aria-label="Color key"><div class="row"><div class="lab">Color</div><div class="cols3">
    <div class="cl"><span class="sw" style="background:var(--film)"></span><div><b>You film</b><span>upload, approve</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--edit)"></span><div><b>Steph edits</b><span>nothing for you</span></div></div>
@@ -107,6 +114,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
   </div></div></div>
 <section id="month"></section>
 <section id="week" hidden></section>
+<section id="bucket" hidden></section>
 <p class="note">Dates can shift. If anything changes, I'll tell you and update this page. Guitar and writing months are proposed dates for now.</p>
 </main>
 <script>
@@ -118,6 +126,7 @@ const ICON={
  stories:'<svg viewBox="0 0 20 20"><path d="M10 2l8 15H2z"/></svg>',
  task:'<svg viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm-1.4 13L4.8 10.2l1.4-1.4 2.4 2.4 5.2-5.2 1.4 1.4z"/></svg>'
 };
+const BUCKET=[["Breakfast at EJ's","Cafecito, breakfast and a thought."],["On set","A trend or a moment with your co-workers. Cleared first."],["Reacting to my own work","Watch something back and say what you really think."],["A thought, out loud","A line or a poem over a still frame."],["The good-man check-in","One honest sentence on how you're showing up this week."],["Joy, caught","Singing, dancing, the moment you get excited."]];
 const iconKind=k=>(k==='upload'||k==='approve')?'task':k;
 const PHASE={film:'You film',edit:'Steph edits',post:'Goes live'};
 const KINDTAG={upload:'You upload',approve:'You approve'};
@@ -191,13 +200,17 @@ function renderMonth(){
   document.getElementById('gw').onclick=()=>{wk=sun(d);if(wk<first)wk=first;if(wk>last)wk=last;show('week')};
  }else dd.innerHTML=`<p class="empty">Tap a day to see what is happening.</p>`;
 }
+function renderBucket(){
+ document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div>`;
+}
 function show(v){
- document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('month').hidden=v!=='month';
+ document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('bucket').hidden=v!=='bucket';document.getElementById('bb').setAttribute('aria-pressed',v==='bucket');document.getElementById('month').hidden=v!=='month';
  document.getElementById('bw').setAttribute('aria-pressed',v==='week');document.getElementById('bm').setAttribute('aria-pressed',v==='month');
- if(v==='week')renderWeek();else renderMonth();
+ if(v==='week')renderWeek();else if(v==='bucket')renderBucket();else renderMonth();
  
 }
 const curWeek=()=>{let s=sun(TODAY);if(s<first)s=first;if(s>last)s=last;return s};
+document.getElementById('bb').onclick=()=>show('bucket');
 document.getElementById('bw').onclick=()=>{wk=curWeek();show('week')};
 document.getElementById('bm').onclick=()=>{sel=null;{const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}show('month')};
 if(!sel){const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}
