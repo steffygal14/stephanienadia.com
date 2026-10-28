@@ -37,6 +37,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .shapes .g{margin:0}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);margin:16px 0 18px}
 .seg button{border:0;background:transparent;padding:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink)}
+.seg button{background:var(--card)}.seg button+button{border-left:2px solid var(--ink)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .nav{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;gap:8px;margin-bottom:14px}
 .nav button.ar{height:40px;border:1.5px solid var(--ink);background:transparent;font-size:20px;line-height:1;color:var(--ink);padding:0}
