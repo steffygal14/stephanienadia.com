@@ -44,6 +44,11 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .nav button.ar{height:40px;border:1.5px solid var(--ink);background:transparent;font-size:20px;line-height:1;color:var(--ink);padding:0}
 .nav .mid{text-align:center}.nav .mid h2{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.15;color:var(--ink)}
 .today-btn{margin-top:2px;border:0;background:none;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mut);padding:6px 4px;border-bottom:1px solid var(--line);border-radius:0}.today-btn:hover{color:var(--ink);border-color:var(--ink)}
+.agenda{border:2px solid var(--ink);background:var(--card);padding:14px 16px 6px;margin:16px 0 0}
+.agenda .eyebrow{margin-bottom:6px}.agenda ul{list-style:none;margin:0;padding:0}
+.agenda li{border-top:1px solid var(--line)}.agenda li:first-child{border-top:0}
+.agenda label{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;padding:11px 0;cursor:pointer;color:var(--ink);font-size:16px;line-height:1.4}
+.agenda input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ink)}
 .owe{background:var(--ink);color:var(--bg);padding:18px 20px 8px;margin-bottom:18px}
 .owe .eyebrow{color:var(--soft)}.owe h2{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--bg);margin:4px 0 8px}
 .owe li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:12px 0;border-top:1px solid rgba(242,239,227,.25)}
@@ -126,6 +131,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
  <h1>EJ, <i>your calendar</i></h1>
  <p class="sub">What you film, what I edit, and what goes live. Times are Pacific.</p>
 </header>
+<section class="agenda" id="agenda" hidden aria-label="Things to discuss"><div class="eyebrow">Things to discuss</div><ul id="agl"></ul></section>
 <div class="seg" role="group" aria-label="View"><button id="bm" aria-pressed="true">Month</button><button id="bw" aria-pressed="false">Week</button><button id="bb" aria-pressed="false">Bucket</button></div>
 <div class="seg two" role="group" aria-label="Which calendar"><button id="cf" aria-pressed="true">Filming</button><button id="ce" aria-pressed="false">Editing + live</button></div>
  <div class="key" id="key" aria-label="Color key"><div class="row"><div class="lab">Color</div><div class="cols3">
@@ -178,6 +184,24 @@ const sun=d=>add(d,-d.getDay());
 const NBSP=String.fromCharCode(160);
 const nb=s=>String(s).replace(/(Organic Reel|Carousel|Dance|Guitar|Writing|Week|Day) (\d+)/g,(m,a,b)=>a.split(' ').join(NBSP)+NBSP+b).replace(/ ([^ ]+)$/,NBSP+'$1');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AGENDA=[
+ ["daily","Daily filming: what you film every day for each 30-day project"],
+ ["wed","Dance Day footage vs the Wednesday organic reel footage: they are two different things"],
+ ["bolly","Bollywood classes: the Stories to record vs the reel footage to capture"],
+ ["feel","How you feel about the updated calendar"],
+ ["gear","Camera equipment and mic"],
+ ["frames","Reducing the Stories frames per day, if we post them daily"],
+ ["kids","Cleaning up and archiving older posts with kids in them, to protect them"],
+ ["old","Cleaning up anything that is not part of your life anymore"]];
+function agenda(){
+ const K='ej-agenda-done';let done={};
+ try{if(new URLSearchParams(location.search).get('agenda')==='reset')localStorage.removeItem(K);done=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+ const left=AGENDA.filter(([k])=>!done[k]),box=document.getElementById('agenda');
+ box.hidden=!left.length;
+ document.getElementById('agl').innerHTML=left.map(([k,t])=>`<li><label><input type="checkbox" data-k="${k}"><span>${esc(t)}</span></label></li>`).join('');
+ box.querySelectorAll('input').forEach(i=>i.onchange=()=>{done[i.dataset.k]=1;try{localStorage.setItem(K,JSON.stringify(done))}catch(e){}setTimeout(agenda,250)});
+}
+agenda();
 let cal=new URLSearchParams(location.search).get('cal')==='edit'?'edit':'film',view='week';const by={};
 const inCal=e=>cal==='film'?(e.owner==='EJ'||e.kind==='note'):((e.owner==='Steph'&&e.kind!=='note')||e.kind==='approve');
 function rebuild(){for(const k in by)delete by[k];for(const e of EVENTS)if(inCal(e))(by[e.d]=by[e.d]||[]).push(e)}rebuild();
