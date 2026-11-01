@@ -222,7 +222,7 @@ function renderMonth(){
  for(let d=start;d<=end;d=add(d,1)){
   const out=d.getMonth()!==m,list=(by[iso(d)]||[]).filter(e=>e.kind!=='stories');
   const dots=list.map(e=>`<span class="dt ${cls(e)}">${ICON.carousel}</span>`).join('');
-  const chips=list.slice(0,3).map(e=>`<span class="ch ${cls(e)}">${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more">+${list.length-3} more</span>`:'');
+  const full=e=>esc(e.title+(e.time?', '+e.time:''));const chips=list.slice(0,3).map(e=>`<span class="ch ${cls(e)}" title="${full(e)}">${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more" title="${list.slice(3).map(full).join('&#10;')}">+${list.length-3} more</span>`:'');
   h+=`<button class="c${out?' out':''}${iso(d)===todayIso?' today':''}" data-d="${iso(d)}" aria-pressed="${sel===iso(d)}" aria-label="${MON[d.getMonth()]} ${d.getDate()}, ${list.length} items"><span class="n">${d.getDate()}</span><span class="dots">${out?'':dots}</span><span class="chips">${out?'':chips}</span></button>`;
  }
  h+=`</div>`;
