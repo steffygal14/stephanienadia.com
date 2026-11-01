@@ -49,6 +49,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .owe li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:12px 0;border-top:1px solid rgba(242,239,227,.25)}
 .owe li.b1{background:#34446f;margin:0 -20px;padding-left:20px;padding-right:20px}.owe .dy{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--soft);padding-top:3px}
 .owe b{color:var(--bg);font-weight:600}.owe small{display:block;color:var(--soft);font-size:14.5px;line-height:1.4}
+.owe .bk-link{display:inline-block;margin-top:8px;color:var(--bg);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px}.owe .bk-link::after{content:' →'}
 .owe .none{padding:10px 0 14px;border:0;display:block;color:var(--soft)}
 .day{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .day.alt{background:#e3e8f3;margin:0 -12px;padding:12px}.day.today .dl{background:var(--ink);color:var(--bg)}
@@ -202,10 +203,11 @@ function renderWeek(){
  let h=`<div class="nav"><button class="ar" id="pw" aria-label="Previous week"${wk<=first?' disabled style="opacity:.35"':''}>‹</button><div class="mid"><div class="eyebrow">${isNow?'This week':'Week of'}</div><h2>${range}</h2>${isNow?'':'<button class="today-btn" id="tw">Back to this week</button>'}</div><button class="ar" id="nw" aria-label="Next week"${wk>=last?' disabled style="opacity:.35"':''}>›</button></div>`;
  h+=`<div class="owe"><div class="eyebrow">${cal==='film'?'What you owe':'Editing and live'}</div><h2>${cal==='film'?(mine.length||stories?'Your list for the week':'Nothing from you'):(mine.length?'Edits, approvals and posts this week':'Nothing to edit or post')}</h2><ul>`;
  if(!mine.length&&!stories)h+=`<li class="none">${cal==='film'?'Nothing due from you this week. Steph has the edits and the posting.':'No edits, approvals or posts this week.'}</li>`;
- let gi=-1,pv='';for(const [d,e] of mine){const nd=iso(d)!==pv;if(nd){gi++;pv=iso(d)}h+=`<li class="${gi%2?'b1':''}"><span class="dy">${nd?DOW[d.getDay()]+' '+d.getDate():''}</span><div><b>${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}</div></li>`}
+ let gi=-1,pv='';for(const [d,e] of mine){const nd=iso(d)!==pv;if(nd){gi++;pv=iso(d)}h+=`<li class="${gi%2?'b1':''}"><span class="dy">${nd?DOW[d.getDay()]+' '+d.getDate():''}</span><div><b>${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}${/^Film Organic Reel/.test(e.title)?'<a href="#" class="bk-link" data-go="bucket">Open your reel bucket</a>':''}</div></li>`}
  if(stories)h+=`<li><span class="dy">Daily</span><div><b>Stories</b><small>3 frames a day, filmed in the moment.</small></div></li>`;
  h+='</ul></div>';
  const el=document.getElementById('week');el.innerHTML=h;
+ el.querySelectorAll('[data-go=bucket]').forEach(a=>a.onclick=ev=>{ev.preventDefault();show('bucket');window.scrollTo(0,0)});
  const pw=document.getElementById('pw'),nw=document.getElementById('nw'),tw=document.getElementById('tw');
  pw.onclick=()=>{if(wk>first){wk=add(wk,-7);renderWeek();window.scrollTo(0,0)}};
  nw.onclick=()=>{if(wk<last){wk=add(wk,7);renderWeek();window.scrollTo(0,0)}};
