@@ -51,7 +51,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .owe b{color:var(--bg);font-weight:600}.owe small{display:block;color:var(--soft);font-size:14.5px;line-height:1.4}
 .owe .none{padding:10px 0 14px;border:0;display:block;color:var(--soft)}
 .day{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
-.day.today .dl{background:var(--ink);color:var(--bg)}
+.day.alt{background:#e3e8f3;margin:0 -12px;padding:12px}.day.today .dl{background:var(--ink);color:var(--bg)}
 .dl{text-align:center;padding:6px 0;align-self:start}.dl b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:inherit}.dl span{font-family:var(--serif);font-size:24px;line-height:1.1;color:inherit}
 .dl{color:var(--ink)}
 .empty{color:var(--mut);font-size:15px;padding-top:8px}
@@ -173,7 +173,7 @@ const sun=d=>add(d,-d.getDay());
 const NBSP=String.fromCharCode(160);
 const nb=s=>String(s).replace(/(Organic Reel|Carousel|Dance|Guitar|Writing|Week|Day) (\d+)/g,(m,a,b)=>a.split(' ').join(NBSP)+NBSP+b).replace(/ ([^ ]+)$/,NBSP+'$1');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let cal=new URLSearchParams(location.search).get('cal')==='edit'?'edit':'film',view='month';const by={};
+let cal=new URLSearchParams(location.search).get('cal')==='edit'?'edit':'film',view='week';const by={};
 const inCal=e=>cal==='film'?(e.owner==='EJ'||e.kind==='note'):((e.owner==='Steph'&&e.kind!=='note')||e.kind==='approve');
 function rebuild(){for(const k in by)delete by[k];for(const e of EVENTS)if(inCal(e))(by[e.d]=by[e.d]||[]).push(e)}rebuild();
 const q=new URLSearchParams(location.search);
@@ -202,11 +202,11 @@ function renderWeek(){
  for(const [d,e] of mine)h+=`<li><span class="dy">${DOW[d.getDay()]} ${d.getDate()}</span><div><b>${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}</div></li>`;
  if(stories)h+=`<li><span class="dy">Daily</span><div><b>Stories</b><small>3 frames a day, filmed in the moment.</small></div></li>`;
  h+=`</ul></div><div class="key tkey" aria-label="Type key"><div class="row"><div class="lab">Type</div><div class="shapes">${[['signature','Signature reel'],['organic','Organic reel'],['carousel','Carousel'],['stories','Stories'],['task','Upload or approve']].map(([k,l])=>`<div><i class="g" style="color:var(--ink)">${ICON[k]}</i>${l}</div>`).join('')}</div></div></div><div class="eyebrow" style="margin-bottom:6px">Day by day</div>`;
- for(const d of days){
+ for(const [di,d] of days.entries()){
   const list=(by[iso(d)]||[]).filter(e=>e.kind!=='stories');
   const st=(by[iso(d)]||[]).filter(e=>e.kind==='stories');
   const all=list.concat(st);
-  h+=`<div class="day${iso(d)===todayIso?' today':''}"><div class="dl"><b>${DOW[d.getDay()]}</b><span>${d.getDate()}</span></div><div class="evs">${all.length?all.map(e=>evHTML(e)).join(''):'<p class="empty">Nothing scheduled.</p>'}</div></div>`;
+  h+=`<div class="day${di%2?' alt':''}${iso(d)===todayIso?' today':''}"><div class="dl"><b>${DOW[d.getDay()]}</b><span>${d.getDate()}</span></div><div class="evs">${all.length?all.map(e=>evHTML(e)).join(''):'<p class="empty">Nothing scheduled.</p>'}</div></div>`;
  }
  const el=document.getElementById('week');el.innerHTML=h;
  const pw=document.getElementById('pw'),nw=document.getElementById('nw'),tw=document.getElementById('tw');
@@ -253,7 +253,7 @@ document.getElementById('bb').onclick=()=>show('bucket');
 document.getElementById('bw').onclick=()=>{wk=curWeek();show('week')};
 document.getElementById('bm').onclick=()=>{sel=null;{const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}show('month')};
 if(!sel){const t=pd(todayIso);if(t.getFullYear()===mo.getFullYear()&&t.getMonth()===mo.getMonth())sel=todayIso}
-show('month');
+wk=curWeek();show('week');
 if(cal==='edit')setCal('edit');
 </script>
 </body>
