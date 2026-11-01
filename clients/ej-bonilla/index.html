@@ -39,7 +39,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .seg button{border:0;background:transparent;padding:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--ink)}
 .seg button{background:var(--card)}.seg button+button{border-left:2px solid var(--ink)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.seg.two{grid-template-columns:repeat(2,1fr);margin-bottom:8px}
+.seg.two{grid-template-columns:repeat(2,1fr);margin-top:-10px;margin-bottom:18px}
 .nav{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;gap:8px;margin-bottom:14px}
 .nav button.ar{height:40px;border:1.5px solid var(--ink);background:transparent;font-size:20px;line-height:1;color:var(--ink);padding:0}
 .nav .mid{text-align:center}.nav .mid h2{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.15;color:var(--ink)}
@@ -124,8 +124,8 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
  <h1>EJ, <i>your calendar</i></h1>
  <p class="sub">What you film, what I edit, and what goes live. Times are Pacific.</p>
 </header>
-<div class="seg two" role="group" aria-label="Which calendar"><button id="cf" aria-pressed="true">Filming</button><button id="ce" aria-pressed="false">Editing + live</button></div>
 <div class="seg" role="group" aria-label="View"><button id="bm" aria-pressed="true">Month</button><button id="bw" aria-pressed="false">Week</button><button id="bb" aria-pressed="false">Bucket</button></div>
+<div class="seg two" role="group" aria-label="Which calendar"><button id="cf" aria-pressed="true">Filming</button><button id="ce" aria-pressed="false">Editing + live</button></div>
  <div class="key" id="key" aria-label="Color key"><div class="row"><div class="lab">Color</div><div class="cols3">
    <div class="cl"><span class="sw" style="background:var(--film)"></span><div><b>You film</b><span>upload, approve</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--edit)"></span><div><b>Steph edits</b><span>nothing for you</span></div></div>
