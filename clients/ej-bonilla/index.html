@@ -223,15 +223,10 @@ function renderMonth(){
   const chips=list.slice(0,3).map(e=>`<span class="ch ${cls(e)}">${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more">+${list.length-3} more</span>`:'');
   h+=`<button class="c${out?' out':''}${iso(d)===todayIso?' today':''}" data-d="${iso(d)}" aria-pressed="${sel===iso(d)}" aria-label="${MON[d.getMonth()]} ${d.getDate()}, ${list.length} items"><span class="n">${d.getDate()}</span><span class="dots">${out?'':dots}</span><span class="chips">${out?'':chips}</span></button>`;
  }
- h+=`</div><div class="detail" id="detail"></div>`;
+ h+=`</div>`;
  const el=document.getElementById('month');el.innerHTML=h;
  el.querySelectorAll('.months button').forEach(b=>b.onclick=()=>{mo=new Date(+b.dataset.y,+b.dataset.m,1);sel=null;renderMonth()});
- el.querySelectorAll('.c').forEach(b=>b.onclick=()=>{sel=b.dataset.d;renderMonth();document.getElementById('detail').scrollIntoView({block:'nearest',behavior:'smooth'})});
- const dd=document.getElementById('detail');
- if(sel){const d=pd(sel);const list=(by[sel]||[]);
-  dd.innerHTML=`<h3>${DOW[d.getDay()]}, ${MON[d.getMonth()]} ${d.getDate()}</h3><div class="evs">${list.length?list.map(e=>evHTML(e)).join(''):'<p class="empty">Nothing scheduled.</p>'}</div><button class="go" id="gw">Open this week</button>`;
-  document.getElementById('gw').onclick=()=>{wk=sun(d);if(wk<first)wk=first;if(wk>last)wk=last;show('week')};
- }else dd.innerHTML=`<p class="empty">Tap a day to see what is happening.</p>`;
+ el.querySelectorAll('.c').forEach(b=>b.onclick=()=>{let w=sun(pd(b.dataset.d));if(w<first)w=first;if(w>last)w=last;wk=w;show('week');window.scrollTo(0,0)});
 }
 function renderBucket(){
  document.getElementById('bucket').innerHTML=`<div class="bk"><div class="eyebrow">For you to pull from</div><h2>Your organic reel bucket</h2><p class="bsub">This is where you pull ideas for the second reel of the week. 15 to 30 seconds. Pick one, skip the rest, or add your own.</p><ul>`+BUCKET.map(([t,d],i)=>`<li><b>${i+1}</b><div><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></div></li>`).join('')+`</ul></div><div class="oo"><div class="eyebrow">One-offs</div><h2>Ideas that only happen once</h2><p class="bsub">Not part of the weekly rotation. We pick a week for each one together.</p><ul>`+ONEOFF.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div><details class="bank"><summary><div><div class="eyebrow">Series bank</div><h2>More <i>I Promise</i> ideas</h2></div><span class="pm" aria-hidden="true"></span></summary><div class="in"><p class="bsub">Future 30-day promises for The Promises I Keep to Myself, after dance, guitar and writing. Parked here until we pick the next one.</p><ul>`+BANK.map(([t,d])=>`<li><h3>${nb(esc(t))}</h3><p>${nb(esc(d))}</p></li>`).join('')+`</ul></div></details>`;
