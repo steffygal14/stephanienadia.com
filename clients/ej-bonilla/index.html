@@ -131,13 +131,16 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
    <div class="cl"><span class="sw" style="background:var(--edit)"></span><div><b>Steph edits</b><span>nothing for you</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--post)"></span><div><b>Goes live</b><span>at the set time</span></div></div>
   </div></div>
+ </div>
+<section id="month"></section>
+<div class="key" id="key2" aria-label="30-day project key">
   <div class="row"><div class="lab">30-day projects</div><div class="cols3">
    <div class="cl"><span class="sw" style="background:var(--dance)"></span><div><b>Dance 30</b><span>Nov 9 to Dec 8. Film 15 sec to 1 min a day, plus classes and reels</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--guitar)"></span><div><b>Guitar 30</b><span>Dec 9 to Jan 7. Film 10 to 30 sec a day, plus reels</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--stage)"></span><div><b>Classes</b><span>Bollywood and any studio class, with the time</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--writing)"></span><div><b>Writing 30</b><span>Jan 8 to Feb 6. Film 10 to 30 sec a day, plus reels</span></div></div>
-  </div></div></div>
-<section id="month"></section>
+  </div></div>
+</div>
 <section id="week" hidden></section>
 <section id="bucket" hidden></section>
 <p class="note">Dates can shift. If anything changes, I'll tell you and update this page. Guitar and writing months are proposed dates for now.</p>
@@ -235,7 +238,7 @@ function renderBucket(){
 }
 function show(v){
  view=v;
- document.getElementById('key').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('bucket').hidden=v!=='bucket';document.getElementById('bb').setAttribute('aria-pressed',v==='bucket');document.getElementById('month').hidden=v!=='month';
+ document.getElementById('key').hidden=v!=='month';document.getElementById('key2').hidden=v!=='month';document.getElementById('week').hidden=v!=='week';document.getElementById('bucket').hidden=v!=='bucket';document.getElementById('bb').setAttribute('aria-pressed',v==='bucket');document.getElementById('month').hidden=v!=='month';
  document.getElementById('bw').setAttribute('aria-pressed',v==='week');document.getElementById('bm').setAttribute('aria-pressed',v==='month');
  if(v==='week')renderWeek();else if(v==='bucket')renderBucket();else renderMonth();
  
