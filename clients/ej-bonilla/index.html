@@ -63,6 +63,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .e.film{--c:var(--film)}.e.edit{--c:var(--edit)}.e.post{--c:var(--post)}.e.class{--c:var(--stage)}.e.guitar{--c:var(--guitar)}.e.writing{--c:var(--writing)}
 .e h3{font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.3}
 .e p{font-size:14.5px;line-height:1.4;color:var(--body)}
+.star{color:var(--dance);margin-right:6px;font-size:1.05em;line-height:1}.ch .star{margin-right:3px;font-size:1em}
 .tag{display:inline-block;margin-top:5px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--c)}
 .g{width:22px;height:22px;display:grid;place-items:center;color:var(--c);flex:none}
 .g svg{width:20px;height:20px;fill:currentColor}
@@ -140,7 +141,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
   <div class="row"><div class="lab">30-day projects</div><div class="cols3">
    <div class="cl"><span class="sw" style="background:var(--film);box-shadow:inset 4px 0 0 var(--dance)"></span><div><b>Dance 30</b><span>Nov 9 to Dec 8, marked with a mustard tag. Film 15 sec to 1 min a day, plus classes and reels</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--guitar)"></span><div><b>Guitar 30</b><span>Dec 14 to Jan 12. Film 10 to 30 sec a day, plus reels</span></div></div>
-   <div class="cl"><span class="sw" style="background:var(--stage)"></span><div><b>Classes</b><span>Bollywood and any studio class, with the time</span></div></div>
+   <div class="cl"><span class="sw" style="background:var(--stage)"></span><div><b>★ Classes and sessions</b><span>A mustard star marks a day with a studio or choreographer, not a free dance day. Time shown</span></div></div>
    <div class="cl"><span class="sw" style="background:var(--writing)"></span><div><b>Writing 30</b><span>Jan 18 to Feb 16. Film 10 to 30 sec a day, plus reels</span></div></div>
   </div></div>
 </div>
@@ -166,6 +167,7 @@ const BUCKET=[["Breakfast at EJ's","Cafecito, breakfast and a thought."],["On se
 const ONEOFF=[["POV: what it's really like being managed","A reel with the on-screen line \u201cPOV: what it's really like to have your social media managed by your best friend.\u201d Played for laughs: I push you off the cliff, and you start your page. Short and silly, no script."]];
 const BANK=[["Flying lessons","Learn to fly a plane. Lessons are the 30 days."],["Small Latina creators","Celebrate and support them, one at a time. Highlight their work."],["Trumpet","Pick up the trumpet and play it."],["The gym","Show up and build the habit."],["Muay Thai","Train for 30 days, then end with a competition or a face-off with somebody."]];
 const cls=e=>e.proj==='dance'?((e.phase==='dance'?'film':e.phase)+' dance'):(e.proj||e.phase);
+const STAR='<span class="star" role="img" aria-label="Studio or choreographer session">\u2605</span>';
 const PROJNAME={dance:'Dance 30',guitar:'Guitar 30',writing:'Writing 30'};
 const iconKind=k=>(k==='upload'||k==='approve')?'task':k;
 const PHASE={film:'You film',edit:'Steph edits',post:'Goes live'};
@@ -206,7 +208,7 @@ function renderWeek(){
  if(cal==='film')h+=`<div class="tips"><div class="eyebrow">Before every shoot</div><ol><li><b>Charge everything the night before.</b> Camera, phone, mics.</li><li><b>Test your audio first.</b> Record a few seconds with the mic and play it back before you film for real.</li><li><b>Shoot in the best natural light you can get on your face.</b></li></ol></div>`;
  h+=`<div class="owe"><div class="eyebrow">${cal==='film'?'What you owe':'Editing and live'}</div><h2>${cal==='film'?(mine.length||stories?'Your list for the week':'Nothing from you'):(mine.length?'Edits, approvals and posts this week':'Nothing to edit or post')}</h2><ul>`;
  if(!mine.length&&!stories)h+=`<li class="none">${cal==='film'?'Nothing due from you this week. Steph has the edits and the posting.':'No edits, approvals or posts this week.'}</li>`;
- let gi=-1,pv='';for(const [d,e] of mine){const nd=iso(d)!==pv;if(nd){gi++;pv=iso(d)}h+=`<li class="${gi%2?'b1':''}"><span class="dy">${nd?DOW[d.getDay()]+' '+d.getDate():''}</span><div><b>${PROJNAME[e.proj]?`<span class="ptag ${e.proj}">${PROJNAME[e.proj]}</span>`:''}${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}${/^Film Organic Reel/.test(e.title)?'<a href="#" class="bk-link" data-go="bucket">Open your reel bucket</a>':''}</div></li>`}
+ let gi=-1,pv='';for(const [d,e] of mine){const nd=iso(d)!==pv;if(nd){gi++;pv=iso(d)}h+=`<li class="${gi%2?'b1':''}"><span class="dy">${nd?DOW[d.getDay()]+' '+d.getDate():''}</span><div><b>${e.kind==='class'?STAR:''}${PROJNAME[e.proj]?`<span class="ptag ${e.proj}">${PROJNAME[e.proj]}</span>`:''}${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}${/^Film Organic Reel/.test(e.title)?'<a href="#" class="bk-link" data-go="bucket">Open your reel bucket</a>':''}</div></li>`}
  if(stories)h+=`<li><span class="dy">Daily</span><div><b>Stories</b><small>3 frames a day, filmed in the moment.</small></div></li>`;
  h+='</ul></div>';
  const el=document.getElementById('week');el.innerHTML=h;
@@ -225,7 +227,7 @@ function renderMonth(){
  for(let d=start;d<=end;d=add(d,1)){
   const out=d.getMonth()!==m,list=(by[iso(d)]||[]).filter(e=>e.kind!=='stories');
   const dots=list.map(e=>`<span class="dt ${cls(e)}">${ICON.carousel}</span>`).join('');
-  const full=e=>esc(e.title+(e.time?', '+e.time:''));const chips=list.slice(0,3).map(e=>`<span class="ch ${cls(e)}" title="${full(e)}">${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more" title="${list.slice(3).map(full).join('&#10;')}">+${list.length-3} more</span>`:'');
+  const full=e=>esc(e.title+(e.time?', '+e.time:''));const chips=list.slice(0,3).map(e=>`<span class="ch ${cls(e)}" title="${full(e)}">${e.kind==='class'?STAR:''}${esc(chipText(e))}</span>`).join('')+(list.length>3?`<span class="more" title="${list.slice(3).map(full).join('&#10;')}">+${list.length-3} more</span>`:'');
   h+=`<button class="c${out?' out':''}${iso(d)===todayIso?' today':''}" data-d="${iso(d)}" aria-pressed="${sel===iso(d)}" aria-label="${MON[d.getMonth()]} ${d.getDate()}, ${list.length} items"><span class="n">${d.getDate()}</span><span class="dots">${out?'':dots}</span><span class="chips">${out?'':chips}</span></button>`;
  }
  h+=`</div>`;
