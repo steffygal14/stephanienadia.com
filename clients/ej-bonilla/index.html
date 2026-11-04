@@ -44,6 +44,7 @@ h1{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1.08;colo
 .nav button.ar{height:40px;border:1.5px solid var(--ink);background:transparent;font-size:20px;line-height:1;color:var(--ink);padding:0}
 .nav .mid{text-align:center}.nav .mid h2{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.15;color:var(--ink)}
 .today-btn{margin-top:2px;border:0;background:none;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mut);padding:6px 4px;border-bottom:1px solid var(--line);border-radius:0}.today-btn:hover{color:var(--ink);border-color:var(--ink)}
+.tips{background:var(--card);border:1.5px solid var(--ink);padding:14px 18px 12px;margin-bottom:18px}.tips .eyebrow{margin-bottom:6px}.tips ol{margin:0;padding-left:22px}.tips li{padding:4px 0;color:var(--body);font-size:15.5px;line-height:1.4}.tips b{color:var(--ink);font-weight:600}
 .owe{background:var(--ink);color:var(--bg);padding:18px 20px 8px;margin-bottom:18px}
 .owe .eyebrow{color:var(--soft)}.owe h2{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--bg);margin:4px 0 8px}
 .owe li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:12px 0;border-top:1px solid rgba(242,239,227,.25)}
@@ -202,6 +203,7 @@ function renderWeek(){
  const stories=days.some(d=>(by[iso(d)]||[]).some(e=>e.kind==='stories'));
  const isNow=iso(sun(TODAY))===iso(wk);
  let h=`<div class="nav"><button class="ar" id="pw" aria-label="Previous week"${wk<=first?' disabled style="opacity:.35"':''}>‹</button><div class="mid"><div class="eyebrow">${isNow?'This week':'Week of'}</div><h2>${range}</h2>${isNow?'':'<button class="today-btn" id="tw">Back to this week</button>'}</div><button class="ar" id="nw" aria-label="Next week"${wk>=last?' disabled style="opacity:.35"':''}>›</button></div>`;
+ if(cal==='film')h+=`<div class="tips"><div class="eyebrow">Before every shoot</div><ol><li><b>Charge everything the night before.</b> Camera, phone, mics.</li><li><b>Test your audio first.</b> Record a few seconds with the mic and play it back before you film for real.</li><li><b>Shoot in the best natural light you can get on your face.</b></li></ol></div>`;
  h+=`<div class="owe"><div class="eyebrow">${cal==='film'?'What you owe':'Editing and live'}</div><h2>${cal==='film'?(mine.length||stories?'Your list for the week':'Nothing from you'):(mine.length?'Edits, approvals and posts this week':'Nothing to edit or post')}</h2><ul>`;
  if(!mine.length&&!stories)h+=`<li class="none">${cal==='film'?'Nothing due from you this week. Steph has the edits and the posting.':'No edits, approvals or posts this week.'}</li>`;
  let gi=-1,pv='';for(const [d,e] of mine){const nd=iso(d)!==pv;if(nd){gi++;pv=iso(d)}h+=`<li class="${gi%2?'b1':''}"><span class="dy">${nd?DOW[d.getDay()]+' '+d.getDate():''}</span><div><b>${PROJNAME[e.proj]?`<span class="ptag ${e.proj}">${PROJNAME[e.proj]}</span>`:''}${nb(esc(e.title))}</b>${e.desc?`<small>${nb(esc(e.desc))}</small>`:''}${/^Film Organic Reel/.test(e.title)?'<a href="#" class="bk-link" data-go="bucket">Open your reel bucket</a>':''}</div></li>`}
